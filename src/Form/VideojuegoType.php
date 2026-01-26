@@ -1,0 +1,29 @@
+namespace App\Form;
+
+use App\Entity\Videojuego;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+class VideojuegoType extends AbstractType {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
+        $builder
+            ->add('titulo', TextType::class, ['constraints' => [new NotBlank()]]) // Campo 1
+            ->add('descripcion', TextareaType::class, ['constraints' => [new NotBlank()]]) // Campo 2
+            ->add('categoria', ChoiceType::class, [ // Campo 3 [cite: 13]
+                'choices'  => ['Acción' => 'Acción', 'Aventura' => 'Aventura', 'RPG' => 'RPG', 'Deportes' => 'Deportes']
+            ])
+            ->add('plataforma', TextType::class) // Campo 4 [cite: 14]
+            ->add('fechaLanzamiento', DateType::class, ['widget' => 'single_text']) // Campo 5 [cite: 14]
+            ->add('imagen', TextType::class, ['required' => false]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void {
+        $resolver->setDefaults(['data_class' => Videojuego::class]);
+    }
+}

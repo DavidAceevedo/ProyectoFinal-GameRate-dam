@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ videojuego.titulo }}</h1> [cite: 14]
+    <p>{{ videojuego.descripcion }}</p>
+
+    <h3>Opiniones de la comunidad</h3> [cite: 28]
+    {% for opinion in videojuego.opiniones %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <strong>Puntuación: {{ opinion.puntuacion }}/5</strong> [cite: 17]
+                <p>{{ opinion.comentario }}</p> [cite: 18]
+                <small>Publicado el: {{ opinion.fechaPublicacion|date('d/m/Y') }}</small>
+            </div>
+        </div>
+    {% else %}
+        <p>Aún no hay reseñas. ¡Sé el primero!</p>
+    {% endfor %}
+
+    {% if app.user %} [cite: 17]
+        <a href="{{ path('app_opinion_new', {'id': videojuego.id}) }}" class="btn btn-primary">Dejar Opinión</a>
+    {% endif %}
+{% endblock %}
