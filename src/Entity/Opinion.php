@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Entity;
 
 use App\Repository\OpinionRepository;
@@ -15,7 +17,7 @@ class Opinion {
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\Range(min: 1, max: 5)]
-    private ?int $puntuacion = null; // Requisito: 1-5 estrellas [cite: 17]
+    private ?int $puntuacion = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
@@ -25,16 +27,34 @@ class Opinion {
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $fechaPublicacion = null;
 
-    #[ORM\ManyToOne(inversedBy: 'opiniones')]
+    // CORRECCIÓN: Añadido targetEntity para que Doctrine sepa con quién conecta
+    #[ORM\ManyToOne(targetEntity: Usuario::class, inversedBy: 'opiniones')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
-    #[ORM\ManyToOne(inversedBy: 'opiniones')]
+    // CORRECCIÓN: Añadido targetEntity para que Doctrine sepa con quién conecta
+    #[ORM\ManyToOne(targetEntity: Videojuego::class, inversedBy: 'opiniones')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Videojuego $videojuego = null;
 
     public function __construct() {
         $this->fechaPublicacion = new \DateTime();
     }
-    // ... incluir Getters y Setters
+
+    public function getId(): ?int { return $this->id; }
+
+    public function getPuntuacion(): ?int { return $this->puntuacion; }
+    public function setPuntuacion(int $puntuacion): static { $this->puntuacion = $puntuacion; return $this; }
+
+    public function getComentario(): ?string { return $this->comentario; }
+    public function setComentario(string $comentario): static { $this->comentario = $comentario; return $this; }
+
+    public function getFechaPublicacion(): ?\DateTimeInterface { return $this->fechaPublicacion; }
+    public function setFechaPublicacion(\DateTimeInterface $fechaPublicacion): static { $this->fechaPublicacion = $fechaPublicacion; return $this; }
+
+    public function getUsuario(): ?Usuario { return $this->usuario; }
+    public function setUsuario(?Usuario $usuario): static { $this->usuario = $usuario; return $this; }
+
+    public function getVideojuego(): ?Videojuego { return $this->videojuego; }
+    public function setVideojuego(?Videojuego $videojuego): static { $this->videojuego = $videojuego; return $this; }
 }
