@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
@@ -13,24 +15,25 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface {
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null; [cite: 30]
+    private ?string $email = null;
 
     #[ORM\Column]
-    private array $roles = []; [cite: 11]
+    private array $roles = [];
 
     #[ORM\Column]
     private ?string $password = null;
 
-    // Métodos obligatorios de Symfony Security
+    // Métodos obligatorios
     public function getUserIdentifier(): string { return (string) $this->email; }
+
     public function getRoles(): array {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER'; // Rol por defecto [cite: 11]
+        $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
+
     public function setRoles(array $roles): self { $this->roles = $roles; return $this; }
     public function getPassword(): string { return $this->password; }
     public function setPassword(string $password): self { $this->password = $password; return $this; }
     public function eraseCredentials(): void {}
-
 }

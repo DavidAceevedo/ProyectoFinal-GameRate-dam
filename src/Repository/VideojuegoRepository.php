@@ -6,9 +6,6 @@ use App\Entity\Videojuego;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Videojuego>
- */
 class VideojuegoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,20 @@ class VideojuegoRepository extends ServiceEntityRepository
         parent::__construct($registry, Videojuego::class);
     }
 
-    //    /**
-    //     * @return Videojuego[] Returns an array of Videojuego objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByFiltros($busqueda, $categoria)
+    {
+        $qb = $this->createQueryBuilder('v');
 
-    //    public function findOneBySomeField($value): ?Videojuego
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($busqueda) {
+            $qb->andWhere('v.titulo LIKE :busqueda')
+               ->setParameter('busqueda', '%'.$busqueda.'%');
+        }
+
+        if ($categoria) {
+            $qb->andWhere('v.categoria = :categoria')
+               ->setParameter('categoria', $categoria);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

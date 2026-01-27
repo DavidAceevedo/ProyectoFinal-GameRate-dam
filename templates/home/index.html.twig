@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GameRate{% endblock %}
+
+{% block body %}
+<h1>🎮 GameRate</h1>
+
+<p>
+    GameRate es una aplicación web para gestionar videojuegos y valorar su calidad
+    mediante opiniones de los usuarios.
+</p>
+
+<a href="{{ path('videojuego_index') }}">Ver videojuegos</a>
+{% endblock %}
