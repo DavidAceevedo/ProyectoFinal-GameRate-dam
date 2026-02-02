@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Usuario;
+use App\Entity\User; // <-- ¡OJO AQUÍ! Asegúrate de que el archivo sea User.php
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,12 +16,11 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = new Usuario();
+        $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hash de la contraseña
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -32,7 +31,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('videojuego_index'); // Redirige al Home tras registro
         }
 
         return $this->render('registration/register.html.twig', [

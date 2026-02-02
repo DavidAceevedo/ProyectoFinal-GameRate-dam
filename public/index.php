@@ -1,5 +1,9 @@
 <?php
 
+$_SERVER['APP_ENV'] = 'dev';
+$_SERVER['APP_DEBUG'] = '1';
+$_SERVER['DATABASE_URL'] = 'mysql://admin:admin@127.0.0.1:3306/gamerate_db';
+
 use App\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
