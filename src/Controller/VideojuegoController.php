@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Videojuego;
-use App\Form\VideojuegoType;
 use App\Entity\Opinion;
+use App\Entity\ListaDeseos;
+use App\Form\VideojuegoType;
 use App\Form\OpinionType;
 use App\Repository\VideojuegoRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,20 +20,22 @@ class VideojuegoController extends AbstractController
     #[Route('/', name: 'videojuego_index', methods: ['GET'])]
     public function index(VideojuegoRepository $repo, Request $request): Response
     {
-        // Obtenemos lo que el usuario escribe en el buscador
         $busqueda = $request->query->get('q');
 
         if ($busqueda) {
-            // Si hay búsqueda, filtramos por título
-            $videojuegos = $repo->findByTitleExample($busqueda);
+            // Cambiado a findBy para que funcione sin configurar el Repository
+            $videojuegos = $repo->createQueryBuilder('v')
+                ->where('v.titulo LIKE :q')
+                ->setParameter('q', '%'.$busqueda.'%')
+                ->getQuery()
+                ->getResult();
         } else {
-            // Si no, mostramos todos
             $videojuegos = $repo->findAll();
         }
 
         return $this->render('videojuego/index.html.twig', [
             'videojuegos' => $videojuegos,
-            'busqueda' => $busqueda, // Pasamos el término para que se quede escrito en el input
+            'busqueda' => $busqueda,
         ]);
     }
 
@@ -46,7 +49,6 @@ class VideojuegoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($videojuego);
             $em->flush();
-
             $this->addFlash('success', '¡Juego añadido correctamente!');
             return $this->redirectToRoute('videojuego_index');
         }
@@ -56,40 +58,6 @@ class VideojuegoController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    // RUTA PARA EDITAR
-    #[Route('/{id}/editar', name: 'videojuego_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Videojuego $videojuego, EntityManagerInterface $em): Response
-    {
-        $form = $this->createForm(VideojuegoType::class, $videojuego);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush(); // Guarda los cambios
-            $this->addFlash('success', 'Juego actualizado correctamente');
-            return $this->redirectToRoute('videojuego_index');
-        }
-
-        return $this->render('videojuego/edit.html.twig', [
-            'videojuego' => $videojuego,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    // RUTA PARA BORRAR
-    #[Route('/{id}/borrar', name: 'videojuego_delete', methods: ['POST'])]
-    public function delete(Request $request, Videojuego $videojuego, EntityManagerInterface $em): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$videojuego->getId(), $request->request->get('_token'))) {
-            $em->remove($videojuego);
-            $em->flush();
-            $this->addFlash('danger', 'Juego eliminado');
-        }
-
-        return $this->redirectToRoute('videojuego_index');
-    }
-
-    // ... imports necesarios (Videojuego, Opinion, OpinionType, etc.)
 
     #[Route('/{id}', name: 'videojuego_show', methods: ['GET', 'POST'])]
     public function show(Videojuego $videojuego, Request $request, EntityManagerInterface $em): Response
@@ -112,5 +80,52 @@ class VideojuegoController extends AbstractController
         ]);
     }
 
+    // --- NUEVA RUTA PARA LA LISTA DE DESEOS (Entidad 3) ---
+    #[Route('/{id}/deseo', name: 'videojuego_wishlist', methods: ['GET'])]
+    public function addToWishlist(Videojuego $videojuego, EntityManagerInterface $em): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
 
+        $deseo = new ListaDeseos();
+        $deseo->setUsuario($this->getUser());
+        $deseo->setVideojuego($videojuego);
+        $deseo->setFechaAgregado(new \DateTimeImmutable());
+
+        $em->persist($deseo);
+        $em->flush();
+
+        $this->addFlash('success', 'Añadido a tu lista de deseos');
+        return $this->redirectToRoute('videojuego_show', ['id' => $videojuego->getId()]);
+    }
+
+    #[Route('/{id}/editar', name: 'videojuego_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Videojuego $videojuego, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(VideojuegoType::class, $videojuego);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Juego actualizado correctamente');
+            return $this->redirectToRoute('videojuego_index');
+        }
+
+        return $this->render('videojuego/edit.html.twig', [
+            'videojuego' => $videojuego,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/borrar', name: 'videojuego_delete', methods: ['POST'])]
+    public function delete(Request $request, Videojuego $videojuego, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$videojuego->getId(), $request->request->get('_token'))) {
+            $em->remove($videojuego);
+            $em->flush();
+            $this->addFlash('danger', 'Juego eliminado');
+        }
+        return $this->redirectToRoute('videojuego_index');
+    }
 }

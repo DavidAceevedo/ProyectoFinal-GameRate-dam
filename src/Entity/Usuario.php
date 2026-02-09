@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -27,6 +29,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @var Collection<int, ListaDeseos>
+     */
+    #[ORM\OneToMany(targetEntity: ListaDeseos::class, mappedBy: 'usuario')]
+    private Collection $listaDeseos;
+
+    public function __construct()
+    {
+        $this->listaDeseos = new ArrayCollection();
+    }
+
     public function getId(): ?int { return $this->id; }
 
     public function getEmail(): ?string { return $this->email; }
@@ -45,4 +58,34 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self { $this->password = $password; return $this; }
 
     public function eraseCredentials(): void {}
+
+    /**
+     * @return Collection<int, ListaDeseos>
+     */
+    public function getListaDeseos(): Collection
+    {
+        return $this->listaDeseos;
+    }
+
+    public function addListaDeseo(ListaDeseos $listaDeseo): static
+    {
+        if (!$this->listaDeseos->contains($listaDeseo)) {
+            $this->listaDeseos->add($listaDeseo);
+            $listaDeseo->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListaDeseo(ListaDeseos $listaDeseo): static
+    {
+        if ($this->listaDeseos->removeElement($listaDeseo)) {
+            // set the owning side to null (unless already changed)
+            if ($listaDeseo->getUsuario() === $this) {
+                $listaDeseo->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
 }

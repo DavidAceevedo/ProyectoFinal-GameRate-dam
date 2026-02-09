@@ -1,41 +1,53 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ videojuego.titulo }}{% endblock %}
+
 {% block body %}
-    <div class="container mt-4">
-        <h1>{{ videojuego.titulo }} <span class="badge bg-secondary">{{ videojuego.genero }}</span></h1>
-        <p class="lead">{{ videojuego.descripcion }}</p>
-
-        <hr>
-
-        <div class="row">
-            <div class="col-md-7">
-                <h4>Opiniones</h4>
-                {% for op in videojuego.opiniones %}
-                    <div class="card mb-2">
-                        <div class="card-body">
-                            <strong>{{ op.autor.email }}</strong> -
-                            <span class="text-warning">{% for i in 1..op.nota %}★{% endfor %}</span>
-                            <p>{{ op.comentario }}</p>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h1 class="display-5 fw-bold">{{ videojuego.titulo }}</h1>
+                            <span class="badge bg-primary fs-6 mb-3">
+                                📂 {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
+                            </span>
                         </div>
-                    </div>
-                {% else %}
-                    <p>No hay reseñas todavía.</p>
-                {% endfor %}
-            </div>
 
-            <div class="col-md-5">
-                {% if app.user %}
-                    <div class="card bg-light p-3">
-                        <h5>Deja tu reseña</h5>
-                        {{ form_start(form) }}
-                        {{ form_row(form.nota) }}
-                        {{ form_row(form.comentario) }}
-                        <button class="btn btn-primary mt-2 w-100">Enviar</button>
-                        {{ form_end(form) }}
+                        {# BOTÓN DE LISTA DE DESEOS (Entidad 3) #}
+                        {% if app.user %}
+                            <a href="{{ path('videojuego_wishlist', {'id': videojuego.id}) }}" class="btn btn-outline-danger">
+                                ❤️ Añadir a Deseos
+                            </a>
+                        {% endif %}
                     </div>
-                {% else %}
-                    <p><a href="{{ path('app_login') }}">Inicia sesión</a> para opinar.</p>
-                {% endif %}
+
+                    <p class="lead text-muted mt-3">{{ videojuego.descripcion }}</p>
+
+                    <hr>
+
+                    <h5 class="fw-bold mb-3">Disponible en:</h5>
+                    <div class="d-flex gap-2">
+                        {% for plataforma in videojuego.plataformas %}
+                            <span class="badge bg-dark py-2 px-3">🎮 {{ plataforma.nombre }}</span>
+                        {% else %}
+                            <span class="text-muted italic">No hay plataformas asignadas.</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            {# Aquí iría la nota media o acciones rápidas #}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <a href="{{ path('videojuego_index') }}" class="btn btn-secondary w-100 mb-2">Volver al catálogo</a>
+                    {% if app.user %}
+                        <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="btn btn-warning w-100">Editar Información</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
