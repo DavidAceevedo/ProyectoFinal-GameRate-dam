@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mi Lista de Deseos{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">❤️ Mi Lista de Deseos</h1>
+
+        {% if deseos is empty %}
+            <div class="alert alert-info">
+                Aún no tienes juegos en tu lista. ¡Explora el <a href="{{ path('videojuego_index') }}">catálogo</a>!
+            </div>
+        {% else %}
+            <div class="row">
+                {% for deseo in deseos %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0">{{ deseo.videojuego.titulo }}</h5>
+                                    <small class="text-muted">Añadido el: {{ deseo.fechaAgregado|date('d/m/Y') }}</small>
+                                </div>
+                                <a href="{{ path('videojuego_show', {'id': deseo.videojuego.id}) }}" class="btn btn-sm btn-primary">Ver Juego</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

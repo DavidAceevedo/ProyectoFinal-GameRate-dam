@@ -7,25 +7,42 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('videojuego_index') }}">🎮 GameRate</a>
+        <a class="navbar-brand fw-bold" href="{{ path('videojuego_index') }}">🎮 GameRate</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('videojuego_index') }}">Catálogo</a>
+                </li>
+
                 {% if app.user %}
                     {# MENU PARA USUARIOS LOGUEADOS #}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Hola, {{ app.user.userIdentifier }}
+                        <a class="nav-link dropdown-toggle text-white border border-secondary rounded px-3 ms-lg-2" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            👤 {{ app.user.userIdentifier }}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="{{ path('videojuego_new') }}">Añadir Juego</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userMenu">
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_wishlist') }}">
+                                    ❤️ Mis Deseos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('videojuego_new') }}">
+                                    ➕ Añadir Juego
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Cerrar Sesión</a></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{{ path('app_logout') }}">
+                                    Cerrar Sesión
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 {% else %}
@@ -43,17 +60,23 @@
 </nav>
 
 <div class="container">
+    {# Mensajes Flash (Éxito, Error, etc.) #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="alert alert-{{ label }} alert-dismissible fade show">
+            {# Mapeo de 'success' a 'success' y 'danger' a 'danger' para Bootstrap #}
+            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show shadow-sm" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
     {% endfor %}
 
     {% block body %}{% endblock %}
 </div>
+
+<footer class="text-center text-muted mt-5 mb-4">
+    <small>&copy; {{ "now"|date("Y") }} GameRate - Proyecto Final DAM</small>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% block javascripts %}{% endblock %}

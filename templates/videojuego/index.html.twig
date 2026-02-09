@@ -30,13 +30,26 @@
                     <div class="card-body text-center bg-white py-4">
                         <span style="font-size: 3rem;">🕹️</span>
                         <h5 class="card-title text-primary mt-3">{{ videojuego.titulo }}</h5>
-                        <span class="badge bg-light text-dark border">{{ videojuego.genero }}</span>
+
+                        {# CORRECCIÓN: Usamos categoria en lugar de genero #}
+                        <span class="badge bg-info text-dark">
+                            📂 {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
+                        </span>
+
+                        {# EXTRA: Mostramos las plataformas también aquí #}
+                        <div class="mt-2">
+                            {% for plataforma in videojuego.plataformas %}
+                                <span class="badge bg-dark" style="font-size: 0.65rem;">{{ plataforma.nombre }}</span>
+                            {% endfor %}
+                        </div>
                     </div>
+
                     <div class="card-body bg-white pt-0">
                         <p class="card-text text-muted small">
                             {{ videojuego.descripcion|default('Sin descripción.')|slice(0, 80) }}...
                         </p>
                     </div>
+
                     <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center pb-3">
                         <div class="btn-group">
                             <a href="{{ path('videojuego_show', {'id': videojuego.id}) }}" class="btn btn-outline-info btn-sm">Ver</a>

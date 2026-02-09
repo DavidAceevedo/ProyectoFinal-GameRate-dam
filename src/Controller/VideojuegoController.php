@@ -23,7 +23,6 @@ class VideojuegoController extends AbstractController
         $busqueda = $request->query->get('q');
 
         if ($busqueda) {
-            // Cambiado a findBy para que funcione sin configurar el Repository
             $videojuegos = $repo->createQueryBuilder('v')
                 ->where('v.titulo LIKE :q')
                 ->setParameter('q', '%'.$busqueda.'%')
@@ -59,6 +58,25 @@ class VideojuegoController extends AbstractController
         ]);
     }
 
+    // --- 1. RUTA FIJA: MI LISTA (DEBE IR ANTES QUE /{id}) ---
+    #[Route('/mi-lista', name: 'app_wishlist', methods: ['GET'])]
+    public function myWishlist(EntityManagerInterface $em): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $misDeseos = $em->getRepository(ListaDeseos::class)->findBy([
+            'usuario' => $this->getUser()
+        ]);
+
+        return $this->render('videojuego/wishlist.html.twig', [
+            'deseos' => $misDeseos,
+        ]);
+    }
+
+    // --- 2. RUTAS DINÁMICAS (CON {id}) ---
+
     #[Route('/{id}', name: 'videojuego_show', methods: ['GET', 'POST'])]
     public function show(Videojuego $videojuego, Request $request, EntityManagerInterface $em): Response
     {
@@ -80,12 +98,22 @@ class VideojuegoController extends AbstractController
         ]);
     }
 
-    // --- NUEVA RUTA PARA LA LISTA DE DESEOS (Entidad 3) ---
     #[Route('/{id}/deseo', name: 'videojuego_wishlist', methods: ['GET'])]
     public function addToWishlist(Videojuego $videojuego, EntityManagerInterface $em): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
+        }
+
+        // Evitar duplicados (Opcional pero recomendado)
+        $existe = $em->getRepository(ListaDeseos::class)->findOneBy([
+            'usuario' => $this->getUser(),
+            'videojuego' => $videojuego
+        ]);
+
+        if ($existe) {
+            $this->addFlash('info', 'Este juego ya está en tu lista');
+            return $this->redirectToRoute('videojuego_show', ['id' => $videojuego->getId()]);
         }
 
         $deseo = new ListaDeseos();
