@@ -84,11 +84,20 @@ class VideojuegoController extends AbstractController
         $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
 
+        // Si se envía el formulario, es válido y hay un usuario logueado
         if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
             $opinion->setVideojuego($videojuego);
             $opinion->setAutor($this->getUser());
+
+            // Aseguramos que se guarde la fecha si tu entidad la requiere
+            if (method_exists($opinion, 'setFecha')) {
+                $opinion->setFecha(new \DateTime());
+            }
+
             $em->persist($opinion);
             $em->flush();
+
+            $this->addFlash('success', '¡Tu opinión ha sido publicada!');
             return $this->redirectToRoute('videojuego_show', ['id' => $videojuego->getId()]);
         }
 

@@ -15,7 +15,7 @@
                             </span>
                         </div>
 
-                        {# BOTÓN DE LISTA DE DESEOS (Entidad 3) #}
+                        {# BOTÓN DE LISTA DE DESEOS (Entidad 3 - Ampliación) #}
                         {% if app.user %}
                             <a href="{{ path('videojuego_wishlist', {'id': videojuego.id}) }}" class="btn btn-outline-danger">
                                 ❤️ Añadir a Deseos
@@ -37,10 +37,62 @@
                     </div>
                 </div>
             </div>
+
+            {# --- SECCIÓN DE OPINIONES --- #}
+            <div class="mt-5">
+                <h3 class="h4 mb-4">💬 Opiniones de la comunidad</h3>
+
+                {% for opinion in videojuego.opiniones %}
+                    <div class="card mb-3 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="fw-bold mb-0">👤 {{ opinion.autor.userIdentifier }}</h6>
+
+                                {# Visualización de la nota con estrellas #}
+                                <div class="text-warning fs-5">
+                                    {% if opinion.nota is defined %}
+                                        {% for i in 1..5 %}
+                                            {{ i <= opinion.nota ? '★' : '☆' }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="mb-0 mt-2 text-secondary">{{ opinion.comentario }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-light border">
+                        Aún no hay opiniones. ¡Sé el primero en decir qué te parece!
+                    </div>
+                {% endfor %}
+
+                {# Formulario para dejar opinión (Uso de Symfony Forms) #}
+                {% if app.user %}
+                    <div class="card mt-4 border-0 shadow-sm bg-white">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold mb-3">Escribir una opinión</h5>
+                            {{ form_start(form) }}
+                            <div class="mb-3">
+                                {{ form_label(form.nota, 'Puntuación') }}
+                                {{ form_widget(form.nota) }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(form.comentario, 'Tu comentario') }}
+                                {{ form_widget(form.comentario) }}
+                            </div>
+                            <button type="submit" class="btn btn-primary px-4">Publicar Opinión</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-secondary mt-4">
+                        Para dejar una opinión, por favor <a href="{{ path('app_login') }}">inicia sesión</a>.
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
         <div class="col-md-4">
-            {# Aquí iría la nota media o acciones rápidas #}
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body text-center">
                     <a href="{{ path('videojuego_index') }}" class="btn btn-secondary w-100 mb-2">Volver al catálogo</a>

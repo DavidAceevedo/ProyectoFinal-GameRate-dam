@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class OpinionType extends AbstractType
 {
@@ -15,13 +16,36 @@ class OpinionType extends AbstractType
     {
         $builder
             ->add('nota', ChoiceType::class, [
-                'choices' => ['1 Estrellas' => 1, '2 Estrellas' => 2, '3 Estrellas' => 3, '4 Estrellas' => 4, '5 Estrellas' => 5],
-                'attr' => ['class' => 'form-select']
+                'label' => 'Tu valoración',
+                'choices' => [
+                    '⭐' => 1,
+                    '⭐⭐' => 2,
+                    '⭐⭐⭐' => 3,
+                    '⭐⭐⭐⭐' => 4,
+                    '⭐⭐⭐⭐⭐' => 5,
+                ],
+                'attr' => ['class' => 'form-select mb-3'],
+                'constraints' => [
+                    new NotBlank(['message' => 'Por favor, selecciona una nota.']),
+                ],
             ])
             ->add('comentario', TextareaType::class, [
-                'attr' => ['class' => 'form-control', 'rows' => 3]
+                'label' => '¿Qué te ha parecido el juego?',
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 3,
+                    'placeholder' => 'Escribe tu reseña aquí...'
+                ],
+                'constraints' => [
+                    new NotBlank(['message' => 'El comentario no puede estar vacío.']),
+                ],
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void { $resolver->setDefaults(['data_class' => Opinion::class]); }
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Opinion::class,
+        ]);
+    }
 }
