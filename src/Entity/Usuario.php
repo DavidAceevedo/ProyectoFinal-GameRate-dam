@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
-class Usuario implements UserInterface, PasswordAuthenticatedUserInterface {
+#[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'Ya existe una cuenta con este email')]
+class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
+{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,7 +27,11 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column]
     private ?string $password = null;
 
-    // Métodos obligatorios
+    public function getId(): ?int { return $this->id; }
+
+    public function getEmail(): ?string { return $this->email; }
+    public function setEmail(string $email): self { $this->email = $email; return $this; }
+
     public function getUserIdentifier(): string { return (string) $this->email; }
 
     public function getRoles(): array {
@@ -31,9 +39,10 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface {
         $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
-
     public function setRoles(array $roles): self { $this->roles = $roles; return $this; }
+
     public function getPassword(): string { return $this->password; }
     public function setPassword(string $password): self { $this->password = $password; return $this; }
+
     public function eraseCredentials(): void {}
 }

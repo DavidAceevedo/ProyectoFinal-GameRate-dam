@@ -1,23 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ videojuego.titulo }}</h1> [cite: 14]
-    <p>{{ videojuego.descripcion }}</p>
+    <div class="container mt-4">
+        <h1>{{ videojuego.titulo }} <span class="badge bg-secondary">{{ videojuego.genero }}</span></h1>
+        <p class="lead">{{ videojuego.descripcion }}</p>
 
-    <h3>Opiniones de la comunidad</h3> [cite: 28]
-    {% for opinion in videojuego.opiniones %}
-        <div class="card mb-2">
-            <div class="card-body">
-                <strong>Puntuación: {{ opinion.puntuacion }}/5</strong> [cite: 17]
-                <p>{{ opinion.comentario }}</p> [cite: 18]
-                <small>Publicado el: {{ opinion.fechaPublicacion|date('d/m/Y') }}</small>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-7">
+                <h4>Opiniones</h4>
+                {% for op in videojuego.opiniones %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <strong>{{ op.autor.email }}</strong> -
+                            <span class="text-warning">{% for i in 1..op.nota %}★{% endfor %}</span>
+                            <p>{{ op.comentario }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No hay reseñas todavía.</p>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-5">
+                {% if app.user %}
+                    <div class="card bg-light p-3">
+                        <h5>Deja tu reseña</h5>
+                        {{ form_start(form) }}
+                        {{ form_row(form.nota) }}
+                        {{ form_row(form.comentario) }}
+                        <button class="btn btn-primary mt-2 w-100">Enviar</button>
+                        {{ form_end(form) }}
+                    </div>
+                {% else %}
+                    <p><a href="{{ path('app_login') }}">Inicia sesión</a> para opinar.</p>
+                {% endif %}
             </div>
         </div>
-    {% else %}
-        <p>Aún no hay reseñas. ¡Sé el primero!</p>
-    {% endfor %}
-
-    {% if app.user %} [cite: 17]
-        <a href="{{ path('app_opinion_new', {'id': videojuego.id}) }}" class="btn btn-primary">Dejar Opinión</a>
-    {% endif %}
+    </div>
 {% endblock %}

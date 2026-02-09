@@ -29,4 +29,14 @@ class VideojuegoRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findByTitleExample(string $value): array
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.titulo LIKE :val')
+            ->setParameter('val', '%' . $value . '%')
+            ->orderBy('v.titulo', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

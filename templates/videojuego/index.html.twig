@@ -1,21 +1,63 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Catálogo - GameRate{% endblock %}
+
 {% block body %}
-<h1>Videojuegos</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">🎮 Catálogo de Videojuegos</h1>
+        {% if app.user %}
+            <a href="{{ path('videojuego_new') }}" class="btn btn-success">+ Añadir Juego</a>
+        {% endif %}
+    </div>
 
-<a href="{{ path('videojuego_new') }}">Nuevo videojuego</a>
+    {# Buscador #}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form action="{{ path('videojuego_index') }}" method="get" class="d-flex shadow-sm">
+                <input type="text" name="q" class="form-control me-2" placeholder="Buscar por título..." value="{{ busqueda|default('') }}">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+                {% if busqueda is defined and busqueda is not empty %}
+                    <a href="{{ path('videojuego_index') }}" class="btn btn-outline-secondary ms-2">Limpiar</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 
-{% for msg in app.flashes('success') %}
-    <p>{{ msg }}</p>
-{% endfor %}
+    <div class="row">
+        {% for videojuego in videojuegos %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center bg-white py-4">
+                        <span style="font-size: 3rem;">🕹️</span>
+                        <h5 class="card-title text-primary mt-3">{{ videojuego.titulo }}</h5>
+                        <span class="badge bg-light text-dark border">{{ videojuego.genero }}</span>
+                    </div>
+                    <div class="card-body bg-white pt-0">
+                        <p class="card-text text-muted small">
+                            {{ videojuego.descripcion|default('Sin descripción.')|slice(0, 80) }}...
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center pb-3">
+                        <div class="btn-group">
+                            <a href="{{ path('videojuego_show', {'id': videojuego.id}) }}" class="btn btn-outline-info btn-sm">Ver</a>
+                            {% if app.user %}
+                                <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="btn btn-outline-warning btn-sm">Editar</a>
+                            {% endif %}
+                        </div>
 
-<ul>
-{% for v in videojuegos %}
-    <li>
-        {{ v.titulo }}
-        <a href="{{ path('videojuego_edit', {id: v.id}) }}">Editar</a>
-        <a href="{{ path('videojuego_delete', {id: v.id}) }}">Eliminar</a>
-    </li>
-{% endfor %}
-</ul>
+                        {% if app.user %}
+                            <form method="post" action="{{ path('videojuego_delete', {'id': videojuego.id}) }}" onsubmit="return confirm('¿Borrar este juego?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ videojuego.id) }}">
+                                <button class="btn btn-link text-danger p-0 ms-2" style="text-decoration:none;">🗑️ Borrar</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <p class="lead text-muted">No se encontraron videojuegos.</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

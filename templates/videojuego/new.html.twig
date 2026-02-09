@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Añadir Nuevo Videojuego{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="h5 mb-0">🎮 Registrar Nuevo Videojuego</h2>
+                </div>
+                <div class="card-body p-4">
+                    {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.titulo, 'Título del Juego', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.titulo, {'attr': {'class': 'form-control', 'placeholder': 'Ej: Elden Ring'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.genero, 'Género', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.genero, {'attr': {'class': 'form-control', 'placeholder': 'Ej: RPG, Acción, Deportes...'}}) }}
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.descripcion, {'attr': {'class': 'form-control', 'rows': 5, 'placeholder': 'Escribe una breve reseña del juego...'}}) }}
+                    </div>
+
+                    <hr>
+
+                    {# BOTONES AL FINAL #}
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ path('videojuego_index') }}" class="btn btn-outline-secondary">
+                            Cancelar y Volver
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            Guardar Videojuego
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

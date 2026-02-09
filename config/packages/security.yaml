@@ -1,12 +1,13 @@
 security:
+    # 1. Configuración del hash de contraseñas
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
+    # 2. Dónde buscar a los usuarios
     providers:
-        # Aquí le decimos que use la tabla de la base de datos
         app_user_provider:
             entity:
-                class: App\Entity\Usuario
+                class: App\Entity\Usuario  # <--- Corregido de 'User' a 'Usuario'
                 property: email
 
     firewalls:
@@ -16,19 +17,20 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            # Configuramos el login
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-            # Configuramos el logout
+                # 3. Mapeo de campos para evitar el error de "NULL"
+                username_parameter: email
+                password_parameter: password
+                default_target_path: videojuego_index
             logout:
                 path: app_logout
-                target: app_login
+                target: videojuego_index
 
+    # 4. Control de acceso (opcional pero recomendado)
     access_control:
-        # Solo los ADMIN pueden entrar al panel y crear juegos
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/videojuego/nuevo, roles: ROLE_ADMIN }
-        - { path: ^/videojuego/\d+/editar, roles: ROLE_ADMIN }
-        - { path: ^/videojuego/\d+/eliminar, roles: ROLE_ADMIN }
+        # Solo usuarios logueados pueden crear o editar juegos
+        - { path: ^/videojuego/nuevo, roles: ROLE_USER }
+        - { path: ^/videojuego/\d+/editar, roles: ROLE_USER }
