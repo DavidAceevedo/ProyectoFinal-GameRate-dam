@@ -16,9 +16,11 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Campo email con validación HTML5
             ->add('email', EmailType::class)
+            // Campo contraseña con restricciones de servidor
             ->add('plainPassword', PasswordType::class, [
-                'mapped' => false,
+                'mapped' => false, // No se vincula directamente a la entidad para poder hashearla después
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank(['message' => 'Por favor, introduce una contraseña']),
@@ -35,7 +37,7 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => \App\Entity\Usuario::class, // Asegúrate de que apunte a Usuario
+            'data_class' => \App\Entity\Usuario::class, // Vinculado a la entidad de seguridad
         ]);
     }
 }

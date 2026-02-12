@@ -1,25 +1,32 @@
-
 services:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
+  # Definimos el servicio de la base de datos
   database:
+    # Usamos una imagen oficial de PostgreSQL (versión 16 sobre Alpine Linux para que pese poco)
     image: postgres:${POSTGRES_VERSION:-16}-alpine
+
+    # Configuramos las credenciales usando variables de entorno
+    # Esto permite que el proyecto sea flexible y seguro
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_DB: ${POSTGRES_DB:-app}      # Nombre de la base de datos
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!} # Contraseña (debe cambiarse en producción)
+      POSTGRES_USER: ${POSTGRES_USER:-app}  # Usuario de la base de datos
+
+    # El healthcheck asegura que el contenedor está "sano" y listo
+    # antes de que Symfony intente conectarse a él
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
       timeout: 5s
       retries: 5
       start_period: 60s
+
+    # Los volúmenes son CRUCIALES: sirven para que los datos no se borren
+    # cuando apagues el contenedor (persistencia)
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
+
 ###< doctrine/doctrine-bundle ###
 
 volumes:
-###> doctrine/doctrine-bundle ###
+  # Definimos el volumen lógico donde se guardarán físicamente los datos de la DB
   database_data:
-###< doctrine/doctrine-bundle ###

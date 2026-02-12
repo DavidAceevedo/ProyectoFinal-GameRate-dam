@@ -17,18 +17,22 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/videojuego')]
 class VideojuegoController extends AbstractController
 {
+    // Listado general con funcionalidad de búsqueda
     #[Route('/', name: 'videojuego_index', methods: ['GET'])]
     public function index(VideojuegoRepository $repo, Request $request): Response
     {
+        // Capturamos el parámetro 'q' de la URL para filtrar
         $busqueda = $request->query->get('q');
 
         if ($busqueda) {
+            // Consulta personalizada con QueryBuilder para buscar por título (LIKE)
             $videojuegos = $repo->createQueryBuilder('v')
                 ->where('v.titulo LIKE :q')
                 ->setParameter('q', '%'.$busqueda.'%')
                 ->getQuery()
                 ->getResult();
         } else {
+            // Si no hay búsqueda, recuperamos todos los registros
             $videojuegos = $repo->findAll();
         }
 
@@ -38,6 +42,7 @@ class VideojuegoController extends AbstractController
         ]);
     }
 
+    // Creación de un nuevo videojuego
     #[Route('/nuevo', name: 'videojuego_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -45,6 +50,7 @@ class VideojuegoController extends AbstractController
         $form = $this->createForm(VideojuegoType::class, $videojuego);
         $form->handleRequest($request);
 
+        // Validación y persistencia en la base de datos
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($videojuego);
             $em->flush();
@@ -59,6 +65,7 @@ class VideojuegoController extends AbstractController
     }
 
     // --- 1. RUTA FIJA: MI LISTA (DEBE IR ANTES QUE /{id}) ---
+    // Gestión de la lista de deseos personal del usuario logueado
     #[Route('/mi-lista', name: 'app_wishlist', methods: ['GET'])]
     public function myWishlist(EntityManagerInterface $em): Response
     {
@@ -66,6 +73,7 @@ class VideojuegoController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        // Filtramos la lista de deseos por el ID del usuario actual
         $misDeseos = $em->getRepository(ListaDeseos::class)->findBy([
             'usuario' => $this->getUser()
         ]);
@@ -77,6 +85,7 @@ class VideojuegoController extends AbstractController
 
     // --- 2. RUTAS DINÁMICAS (CON {id}) ---
 
+    // Ficha del videojuego y gestión de comentarios
     #[Route('/{id}', name: 'videojuego_show', methods: ['GET', 'POST'])]
     public function show(Videojuego $videojuego, Request $request, EntityManagerInterface $em): Response
     {
@@ -84,12 +93,12 @@ class VideojuegoController extends AbstractController
         $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
 
-        // Si se envía el formulario, es válido y hay un usuario logueado
+        // Procesamiento del formulario de opinión (solo para usuarios autenticados)
         if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
-            $opinion->setVideojuego($videojuego);
-            $opinion->setAutor($this->getUser());
+            $opinion->setVideojuego($videojuego); // Relación ManyToOne con el juego actual
+            $opinion->setAutor($this->getUser()); // Relación ManyToOne con el usuario actual
 
-            // Aseguramos que se guarde la fecha si tu entidad la requiere
+            // Lógica para asignar fecha de creación si el método existe en la entidad
             if (method_exists($opinion, 'setFecha')) {
                 $opinion->setFecha(new \DateTime());
             }
@@ -107,6 +116,7 @@ class VideojuegoController extends AbstractController
         ]);
     }
 
+    // Acción para añadir un juego a la lista de deseos (ManyToMany / Tabla intermedia)
     #[Route('/{id}/deseo', name: 'videojuego_wishlist', methods: ['GET'])]
     public function addToWishlist(Videojuego $videojuego, EntityManagerInterface $em): Response
     {
@@ -114,7 +124,7 @@ class VideojuegoController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Evitar duplicados (Opcional pero recomendado)
+        // Evitar duplicados comprobando si el vínculo ya existe
         $existe = $em->getRepository(ListaDeseos::class)->findOneBy([
             'usuario' => $this->getUser(),
             'videojuego' => $videojuego
@@ -137,6 +147,7 @@ class VideojuegoController extends AbstractController
         return $this->redirectToRoute('videojuego_show', ['id' => $videojuego->getId()]);
     }
 
+    // Edición de información existente
     #[Route('/{id}/editar', name: 'videojuego_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Videojuego $videojuego, EntityManagerInterface $em): Response
     {
@@ -144,7 +155,7 @@ class VideojuegoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $em->flush(); // Sincroniza los cambios con la DB
             $this->addFlash('success', 'Juego actualizado correctamente');
             return $this->redirectToRoute('videojuego_index');
         }
@@ -155,9 +166,11 @@ class VideojuegoController extends AbstractController
         ]);
     }
 
+    // Eliminación de un registro mediante método POST y protección CSRF
     #[Route('/{id}/borrar', name: 'videojuego_delete', methods: ['POST'])]
     public function delete(Request $request, Videojuego $videojuego, EntityManagerInterface $em): Response
     {
+        // Verificación del token de seguridad para evitar borrados malintencionados
         if ($this->isCsrfTokenValid('delete'.$videojuego->getId(), $request->request->get('_token'))) {
             $em->remove($videojuego);
             $em->flush();

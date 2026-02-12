@@ -15,6 +15,7 @@ class OpinionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Valoración mediante sistema de estrellas con ChoiceType
             ->add('nota', ChoiceType::class, [
                 'label' => 'Tu valoración',
                 'choices' => [
@@ -29,6 +30,7 @@ class OpinionType extends AbstractType
                     new NotBlank(['message' => 'Por favor, selecciona una nota.']),
                 ],
             ])
+            // Área de texto para el comentario
             ->add('comentario', TextareaType::class, [
                 'label' => '¿Qué te ha parecido el juego?',
                 'attr' => [

@@ -13,23 +13,25 @@ class VideojuegoRepository extends ServiceEntityRepository
         parent::__construct($registry, Videojuego::class);
     }
 
+    // Método avanzado para filtrar por múltiples criterios (título y categoría)
     public function findByFiltros($busqueda, $categoria)
     {
         $qb = $this->createQueryBuilder('v');
 
         if ($busqueda) {
             $qb->andWhere('v.titulo LIKE :busqueda')
-               ->setParameter('busqueda', '%'.$busqueda.'%');
+                ->setParameter('busqueda', '%'.$busqueda.'%');
         }
 
         if ($categoria) {
             $qb->andWhere('v.categoria = :categoria')
-               ->setParameter('categoria', $categoria);
+                ->setParameter('categoria', $categoria);
         }
 
         return $qb->getQuery()->getResult();
     }
 
+    // Método ejemplo para buscar títulos ordenados alfabéticamente
     public function findByTitleExample(string $value): array
     {
         return $this->createQueryBuilder('v')

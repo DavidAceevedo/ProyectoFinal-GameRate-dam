@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+// Mapeo de la entidad y restricción de email único
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Ya existe una cuenta con este email')]
@@ -30,6 +31,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
+     * RELACIÓN ONE-TO-MANY: Un usuario puede tener varios juegos en lista de deseos
      * @var Collection<int, ListaDeseos>
      */
     #[ORM\OneToMany(targetEntity: ListaDeseos::class, mappedBy: 'usuario')]
@@ -37,6 +39,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        // Inicialización de colecciones para evitar errores de nulidad
         $this->listaDeseos = new ArrayCollection();
     }
 
@@ -45,11 +48,13 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): ?string { return $this->email; }
     public function setEmail(string $email): self { $this->email = $email; return $this; }
 
+    // Requisito de UserInterface para identificar al usuario
     public function getUserIdentifier(): string { return (string) $this->email; }
 
+    // Gestión de roles del sistema de seguridad de Symfony
     public function getRoles(): array {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_USER'; // Rol base garantizado
         return array_unique($roles);
     }
     public function setRoles(array $roles): self { $this->roles = $roles; return $this; }
@@ -57,6 +62,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPassword(): string { return $this->password; }
     public function setPassword(string $password): self { $this->password = $password; return $this; }
 
+    // Obligatorio por interfaz para limpiar datos temporales de autenticación
     public function eraseCredentials(): void {}
 
     /**
@@ -67,6 +73,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->listaDeseos;
     }
 
+    // Método para añadir deseos gestionando la relación bidireccional
     public function addListaDeseo(ListaDeseos $listaDeseo): static
     {
         if (!$this->listaDeseos->contains($listaDeseo)) {
@@ -77,10 +84,10 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // Método para eliminar deseos rompiendo el vínculo bidireccional
     public function removeListaDeseo(ListaDeseos $listaDeseo): static
     {
         if ($this->listaDeseos->removeElement($listaDeseo)) {
-            // set the owning side to null (unless already changed)
             if ($listaDeseo->getUsuario() === $this) {
                 $listaDeseo->setUsuario(null);
             }
