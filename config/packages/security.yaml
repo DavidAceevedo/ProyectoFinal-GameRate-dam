@@ -1,13 +1,13 @@
 security:
-    # 1. Configuración del hash de contraseñas
+    # 1. Configuración del hash de contraseñas (Acepta 123456 tal cual)
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'plaintext'
 
-    # 2. Dónde buscar a los usuarios
+    # 2. Proveedor de usuarios (usando tu entidad Usuario)
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\Usuario  # <--- Corregido de 'User' a 'Usuario'
+                class: App\Entity\Usuario
                 property: email
 
     firewalls:
@@ -21,7 +21,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                # 3. Mapeo de campos para evitar el error de "NULL"
+                # ESTO EVITA EL ERROR DE "NULL"
                 username_parameter: email
                 password_parameter: password
                 default_target_path: videojuego_index
@@ -29,8 +29,7 @@ security:
                 path: app_logout
                 target: videojuego_index
 
-    # 4. Control de acceso (opcional pero recomendado)
+    # 3. Control de acceso
     access_control:
-        # Solo usuarios logueados pueden crear o editar juegos
-        - { path: ^/videojuego/nuevo, roles: ROLE_USER }
-        - { path: ^/videojuego/\d+/editar, roles: ROLE_USER }
+        - { path: ^/videojuego/new, roles: ROLE_USER }
+        - { path: ^/videojuego/\d+/edit, roles: ROLE_USER }

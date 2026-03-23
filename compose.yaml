@@ -1,32 +1,38 @@
 services:
   ###> doctrine/doctrine-bundle ###
-  # Definimos el servicio de la base de datos
+  # Definimos el servicio de la base de datos (MySQL 8.0)
   database:
-    # Usamos una imagen oficial de PostgreSQL (versión 16 sobre Alpine Linux para que pese poco)
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    # Usamos la imagen oficial de MySQL 8.0
+    image: mysql:8.0
 
-    # Configuramos las credenciales usando variables de entorno
-    # Esto permite que el proyecto sea flexible y seguro
+    # Compatibilidad para autenticación de contraseñas con Symfony y clientes antiguos
+    command: --default-authentication-plugin=mysql_native_password
+
+    # Configuramos las credenciales según tu .env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}      # Nombre de la base de datos
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!} # Contraseña (debe cambiarse en producción)
-      POSTGRES_USER: ${POSTGRES_USER:-app}  # Usuario de la base de datos
+      MYSQL_DATABASE: gamerate_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: root_password
 
-    # El healthcheck asegura que el contenedor está "sano" y listo
-    # antes de que Symfony intente conectarse a él
+    # El healthcheck adaptado para asegurar que MySQL está listo antes que nada
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-padmin"]
       timeout: 5s
       retries: 5
-      start_period: 60s
+      start_period: 30s
 
-    # Los volúmenes son CRUCIALES: sirven para que los datos no se borren
-    # cuando apagues el contenedor (persistencia)
+    # Mapeo al puerto 3307 para evitar el conflicto con tu proceso local 1301
+    ports:
+      - "3307:3306"
+
+    # Persistencia de datos + Carga automática de tu data.sql
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - database_data:/var/lib/mysql:rw
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
 
 ###< doctrine/doctrine-bundle ###
 
 volumes:
-  # Definimos el volumen lógico donde se guardarán físicamente los datos de la DB
+  # Definición del volumen persistente para que no pierdas tus juegos al apagar
   database_data:
