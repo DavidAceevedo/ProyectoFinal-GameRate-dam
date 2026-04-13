@@ -2,50 +2,110 @@
 
 {% block title %}Añadir Nuevo Videojuego{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        body { background-color: #f3f4f6; }
+
+        .form-card {
+            border-radius: 20px !important;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-header {
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 25px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .platform-container {
+            background: #f9fafb;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-save {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 10px 25px;
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class="row justify-content-center mt-4">
+    <div class="row justify-content-center mt-4 pb-5">
         <div class="col-md-8">
-            <div class="card shadow border-0">
-                <div class="card-header bg-primary text-white py-3">
-                    <h2 class="h5 mb-0">🎮 Registrar Nuevo Videojuego</h2>
+            <div class="card form-card shadow-lg border-0">
+                <div class="card-header form-header border-0 text-center">
+                    <h2 class="h4 mb-0 fw-bold">🎮 Registrar Nuevo Videojuego</h2>
+                    <p class="small mb-0 opacity-75">Añade una nueva joya a la colección</p>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-4 p-md-5">
                     {{ form_start(form) }}
 
-                    <div class="mb-3">
-                        {{ form_label(form.titulo, 'Título del Juego', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                    <div class="mb-4">
+                        {{ form_label(form.titulo, 'Título del Juego', {'label_attr': {'class': 'form-label fw-bold text-dark'}}) }}
                         {{ form_widget(form.titulo, {'attr': {'class': 'form-control', 'placeholder': 'Ej: Elden Ring'}}) }}
                     </div>
 
-                    {# CAMBIO: Género (texto) por Categoría (relación) #}
-                    <div class="mb-3">
-                        {{ form_label(form.categoria, 'Categoría', {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.categoria, {'attr': {'class': 'form-select'}}) }}
-                        <small class="text-muted">Selecciona el género principal del juego.</small>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            {{ form_label(form.categoria, 'Categoría', {'label_attr': {'class': 'form-label fw-bold text-dark'}}) }}
+                            {{ form_widget(form.categoria, {'attr': {'class': 'form-select'}}) }}
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            {# CAMPO IMAGEN AÑADIDO #}
+                            {{ form_label(form.imagen, 'URL de la Carátula', {'label_attr': {'class': 'form-label fw-bold text-dark'}}) }}
+                            {{ form_widget(form.imagen, {'attr': {'class': 'form-control', 'placeholder': 'https://...'}}) }}
+                        </div>
                     </div>
 
                     <div class="mb-4">
-                        {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.descripcion, {'attr': {'class': 'form-control', 'rows': 5, 'placeholder': 'Escribe una breve reseña del juego...'}}) }}
+                        {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label fw-bold text-dark'}}) }}
+                        {{ form_widget(form.descripcion, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': '¿De qué trata este juego?'}}) }}
                     </div>
 
-                    {# NUEVO: Sección para seleccionar múltiples plataformas #}
                     <div class="mb-4">
-                        {{ form_label(form.plataformas, 'Disponible en:', {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        <div class="p-3 border rounded bg-light">
+                        {{ form_label(form.plataformas, 'Plataformas Disponibles', {'label_attr': {'class': 'form-label fw-bold text-dark'}}) }}
+                        <div class="platform-container">
                             {{ form_widget(form.plataformas) }}
                         </div>
-                        <small class="text-muted">Puedes marcar varias opciones.</small>
+                        <small class="text-muted mt-2 d-block">Selecciona todos los sistemas donde se puede jugar.</small>
                     </div>
 
-                    <hr>
+                    <hr class="my-4 text-muted opacity-25">
 
-                    {# BOTONES AL FINAL #}
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ path('videojuego_index') }}" class="btn btn-outline-secondary">
-                            Cancelar y Volver
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ path('videojuego_index') }}" class="text-decoration-none text-muted fw-bold small">
+                            ← Cancelar y Volver
                         </a>
-                        <button type="submit" class="btn btn-primary px-4">
+                        <button type="submit" class="btn btn-primary btn-save px-5 text-white">
                             Guardar Videojuego
                         </button>
                     </div>

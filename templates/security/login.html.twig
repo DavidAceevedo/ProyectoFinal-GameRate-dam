@@ -2,44 +2,116 @@
 
 {% block title %}Iniciar Sesión - GameRate{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        body {
+            background: radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.05), transparent),
+            #f3f4f6;
+            min-height: 90vh;
+        }
+
+        .auth-card {
+            border-radius: 25px !important;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-header {
+            background: var(--primary-gradient);
+            border-radius: 25px 25px 0 0 !important;
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-login {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class="row justify-content-center mt-5">
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
         <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
-                    <h2 class="h4 mb-0">Identifícate</h2>
+            <div class="card auth-card overflow-hidden">
+                <div class="auth-header">
+                    <h2 class="fw-bold mb-0">🚀 ¡Hola de nuevo!</h2>
+                    <p class="small mb-0 opacity-75">Identifícate para valorar tus juegos</p>
                 </div>
-                <div class="card-body p-4">
+
+                <div class="card-body p-4 p-md-5">
                     <form method="post">
                         {% if error %}
-                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% endif %}
-
-                        {% if app.user %}
-                            <div class="mb-3">
-                                Ya estás identificado como {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Cerrar sesión</a>
+                            <div class="alert alert-danger border-0 shadow-sm" style="border-radius: 12px;">
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
                             </div>
                         {% endif %}
 
-                        <div class="mb-3">
-                            <label for="inputEmail" class="form-label">Email</label>
-                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        {% if app.user %}
+                            <div class="alert alert-info border-0 text-center" style="border-radius: 12px;">
+                                Ya estás identificado como <strong>{{ app.user.userIdentifier }}</strong><br>
+                                <a href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-info mt-2">Cerrar sesión</a>
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label for="inputEmail" class="form-label fw-bold small text-uppercase">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="tu@email.com" autocomplete="email" required autofocus>
                         </div>
-                        <div class="mb-3">
-                            <label for="inputPassword" class="form-label">Contraseña</label>
-                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                        <div class="mb-4">
+                            <label for="inputPassword" class="form-label fw-bold small text-uppercase">Contraseña</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="••••••••" autocomplete="current-password" required>
                         </div>
 
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="submit">
-                                Entrar
-                            </button>
-                        </div>
+                        <button class="btn btn-primary btn-login w-100 mt-2" type="submit">
+                            Entrar al sistema 🕹️
+                        </button>
 
-                        <div class="text-center mt-3">
-                            <p>¿No tienes cuenta? <a href="{{ path('app_register') }}">Regístrate aquí</a></p>
+                        <div class="auth-footer">
+                            <p class="mb-0 small">
+                                ¿No tienes cuenta?
+                                <a href="{{ path('app_register') }}" class="text-decoration-none fw-bold" style="color: #6366f1;">
+                                    Regístrate aquí
+                                </a>
+                            </p>
                         </div>
                     </form>
                 </div>

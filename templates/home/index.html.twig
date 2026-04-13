@@ -1,14 +1,130 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}GameRate{% endblock %}
+{% block title %}Bienvenido a GameRate{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        .hero-section {
+            padding: 100px 0;
+            background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.1), transparent),
+            radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.1), transparent);
+            border-radius: 30px;
+            margin-top: 2rem;
+        }
+
+        .display-1 {
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-title-gradient {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-main {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-main:hover {
+            transform: scale(1.05);
+            color: white;
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            border-color: #a855f7;
+            transform: translateY(-5px);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: #f3f4f6;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-<h1>🎮 GameRate</h1>
+    <div class="hero-section text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h1 class="display-1 mb-4">La comunidad definitiva de <br><span class="hero-title-gradient">Gamers Reales</span></h1>
+                    <p class="lead text-muted mb-5 px-md-5">
+                        GameRate no es solo un catálogo. Es tu espacio para gestionar tu colección personal, descubrir nuevas joyas y compartir opiniones sinceras con otros jugadores.
+                    </p>
 
-<p>
-    GameRate es una aplicación web para gestionar videojuegos y valorar su calidad
-    mediante opiniones de los usuarios.
-</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{{ path('videojuego_index') }}" class="btn-main">
+                            Explorar Catálogo 🚀
+                        </a>
+                        {% if not app.user %}
+                            <a href="{{ path('app_register') }}" class="btn btn-outline-dark px-4 py-3" style="border-radius: 15px; font-weight: 600;">
+                                Crear una cuenta
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<a href="{{ path('videojuego_index') }}">Ver videojuegos</a>
+    {# Sección de características #}
+    <div class="container mt-5 pb-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card shadow-sm">
+                    <div class="icon-box">📚</div>
+                    <h4 class="fw-bold">Gestiona</h4>
+                    <p class="text-muted mb-0">Organiza toda tu biblioteca de juegos, desde clásicos retro hasta los últimos lanzamientos de nueva generación.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card shadow-sm">
+                    <div class="icon-box">⭐</div>
+                    <h4 class="fw-bold">Valora</h4>
+                    <p class="text-muted mb-0">Deja tu huella. Puntúa y escribe reseñas para ayudar a la comunidad a decidir su próxima aventura.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card shadow-sm">
+                    <div class="icon-box">❤️</div>
+                    <h4 class="fw-bold">Desea</h4>
+                    <p class="text-muted mb-0">Crea tu propia lista de deseos y no pierdas de vista ese juego al que tantas ganas le tienes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

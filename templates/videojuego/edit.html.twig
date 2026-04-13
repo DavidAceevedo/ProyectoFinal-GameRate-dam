@@ -17,7 +17,6 @@
                         {{ form_widget(form.titulo, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
-                    {# CAMBIO: Ahora usamos categoria en lugar de genero #}
                     <div class="mb-3">
                         {{ form_label(form.categoria, 'Categoría', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                         {{ form_widget(form.categoria, {'attr': {'class': 'form-select'}}) }}
@@ -28,7 +27,12 @@
                         {{ form_widget(form.descripcion, {'attr': {'class': 'form-control', 'rows': 5}}) }}
                     </div>
 
-                    {# NUEVO: Sección de Plataformas #}
+                    {# NUEVO: Campo para la URL de la imagen #}
+                    <div class="mb-3">
+                        {{ form_label(form.imagen, 'URL de la Carátula', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.imagen, {'attr': {'class': 'form-control', 'placeholder': 'Pega el enlace de la imagen aquí...'}}) }}
+                    </div>
+
                     <div class="mb-4">
                         {{ form_label(form.plataformas, 'Plataformas Disponibles', {'label_attr': {'class': 'form-label fw-bold'}}) }}
                         <div class="p-3 border rounded bg-light">

@@ -58,48 +58,76 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
         yield from $this->unwrap()->yieldBlock('title', $context, $blocks);
         yield "</title>
     <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css\">
     ";
-        // line 7
-        yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
         // line 8
-        yield "</head>
+        yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
+        // line 9
+        yield "    <style>
+        /* Pequeño ajuste para que la navbar sea más \"Pro\" */
+        .navbar {
+            background-color: #0f172a !important; /* Negro azulado muy oscuro */
+            border-bottom: 2px solid #6366f1; /* Línea morada sutil */
+        }
+        .nav-link {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #a855f7 !important; /* Color morado al pasar el ratón */
+        }
+        .navbar-brand {
+            letter-spacing: -1px;
+        }
+    </style>
+</head>
 <body class=\"bg-light\">
-<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow\">
+<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-lg\">
     <div class=\"container\">
         <a class=\"navbar-brand fw-bold\" href=\"";
-        // line 12
+        // line 30
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_index");
-        yield "\">🎮 GameRate</a>
+        yield "\">
+            <span style=\"color: #6366f1;\">🎮</span> GameRate
+        </a>
         <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">
             <span class=\"navbar-toggler-icon\"></span>
         </button>
 
         <div class=\"collapse navbar-collapse\" id=\"navbarNav\">
-            <ul class=\"navbar-nav ms-auto\">
+            <ul class=\"navbar-nav ms-auto align-items-center\">
+
+                ";
+        // line 41
+        yield "                <li class=\"nav-item\">
+                    <a class=\"nav-link px-3\" href=\"";
+        // line 42
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
+        yield "\">Inicio</a>
+                </li>
+
                 <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"";
-        // line 20
+                    <a class=\"nav-link px-3\" href=\"";
+        // line 46
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_index");
         yield "\">Catálogo</a>
                 </li>
 
                 ";
-        // line 23
-        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 23, $this->source); })()), "user", [], "any", false, false, false, 23)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 24
-            yield "                    ";
-            // line 25
+        // line 49
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 49, $this->source); })()), "user", [], "any", false, false, false, 49)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 50
             yield "                    <li class=\"nav-item dropdown\">
                         <a class=\"nav-link dropdown-toggle text-white border border-secondary rounded px-3 ms-lg-2\" href=\"#\" id=\"userMenu\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
                             👤 ";
-            // line 27
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 27, $this->source); })()), "user", [], "any", false, false, false, 27), "userIdentifier", [], "any", false, false, false, 27), "html", null, true);
+            // line 52
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 52, $this->source); })()), "user", [], "any", false, false, false, 52), "userIdentifier", [], "any", false, false, false, 52), "html", null, true);
             yield "
                         </a>
-                        <ul class=\"dropdown-menu dropdown-menu-end shadow\" aria-labelledby=\"userMenu\">
+                        <ul class=\"dropdown-menu dropdown-menu-end shadow border-0\" aria-labelledby=\"userMenu\">
                             <li>
                                 <a class=\"dropdown-item\" href=\"";
-            // line 31
+            // line 56
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_wishlist");
             yield "\">
                                     ❤️ Mis Deseos
@@ -107,7 +135,7 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
                             </li>
                             <li>
                                 <a class=\"dropdown-item\" href=\"";
-            // line 36
+            // line 61
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_new");
             yield "\">
                                     ➕ Añadir Juego
@@ -116,34 +144,34 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
                             <li><hr class=\"dropdown-divider\"></li>
                             <li>
                                 <a class=\"dropdown-item text-danger\" href=\"";
-            // line 42
+            // line 67
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             yield "\">
-                                    Cerrar Sesión
+                                    <i class=\"bi bi-box-arrow-right\"></i> Cerrar Sesión
                                 </a>
                             </li>
                         </ul>
                     </li>
                 ";
         } else {
-            // line 49
-            yield "                    ";
-            // line 50
+            // line 74
             yield "                    <li class=\"nav-item\">
-                        <a class=\"nav-link\" href=\"";
-            // line 51
+                        <a class=\"nav-link px-3\" href=\"";
+            // line 75
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
             yield "\">Entrar</a>
                     </li>
                     <li class=\"nav-item\">
-                        <a class=\"btn btn-primary btn-sm mt-1 ms-lg-2\" href=\"";
-            // line 54
+                        <a class=\"btn btn-primary btn-sm ms-lg-2 px-3\"
+                           style=\"background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); border: none; border-radius: 8px;\"
+                           href=\"";
+            // line 80
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
             yield "\">Registrarse</a>
                     </li>
                 ";
         }
-        // line 57
+        // line 83
         yield "            </ul>
         </div>
     </div>
@@ -151,24 +179,25 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
 
 <div class=\"container\">
     ";
-        // line 64
-        yield "    ";
+        // line 89
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 64, $this->source); })()), "flashes", [], "any", false, false, false, 64));
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 89, $this->source); })()), "flashes", [], "any", false, false, false, 89));
         foreach ($context['_seq'] as $context["label"] => $context["messages"]) {
-            // line 65
+            // line 90
             yield "        ";
             $context['_parent'] = $context;
             $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
             foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-                // line 66
-                yield "            ";
-                // line 67
+                // line 91
                 yield "            <div class=\"alert alert-";
                 yield ((($context["label"] == "error")) ? ("danger") : ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["label"], "html", null, true)));
-                yield " alert-dismissible fade show shadow-sm\" role=\"alert\">
+                yield " alert-dismissible fade show shadow-sm border-0\"
+                 style=\"border-radius: 12px; background-color: white; border-left: 5px solid ";
+                // line 92
+                yield ((($context["label"] == "error")) ? ("#dc3545") : ("#6366f1"));
+                yield ";\" role=\"alert\">
                 ";
-                // line 68
+                // line 93
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
                 yield "
                 <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
@@ -178,32 +207,36 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 72
+            // line 97
             yield "    ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['label'], $context['messages'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 73
+        // line 98
         yield "
     ";
-        // line 74
+        // line 99
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 75
+        // line 100
         yield "</div>
 
-<footer class=\"text-center text-muted mt-5 mb-4\">
-    <small>&copy; ";
-        // line 78
+<footer class=\"text-center text-muted mt-5 mb-4 py-4\">
+    <div class=\"container border-top pt-4\">
+        <small class=\"fw-bold text-uppercase\" style=\"letter-spacing: 1px;\">
+            &copy; ";
+        // line 105
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate("now", "Y"), "html", null, true);
-        yield " GameRate - Proyecto Final DAM</small>
+        yield " GameRate <span class=\"mx-2\">|</span> Proyecto Final DAM
+        </small>
+    </div>
 </footer>
 
 <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js\"></script>
 ";
-        // line 82
+        // line 111
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 83
+        // line 112
         yield "</body>
 </html>
 ";
@@ -239,7 +272,7 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
         yield from [];
     }
 
-    // line 7
+    // line 8
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -261,7 +294,7 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
         yield from [];
     }
 
-    // line 74
+    // line 99
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -283,7 +316,7 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
         yield from [];
     }
 
-    // line 82
+    // line 111
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -326,7 +359,7 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  287 => 82,  265 => 74,  243 => 7,  220 => 5,  207 => 83,  205 => 82,  198 => 78,  193 => 75,  191 => 74,  188 => 73,  182 => 72,  172 => 68,  167 => 67,  165 => 66,  160 => 65,  155 => 64,  147 => 57,  141 => 54,  135 => 51,  132 => 50,  130 => 49,  120 => 42,  111 => 36,  103 => 31,  96 => 27,  92 => 25,  90 => 24,  88 => 23,  82 => 20,  71 => 12,  65 => 8,  63 => 7,  58 => 5,  52 => 1,);
+        return array (  320 => 111,  298 => 99,  276 => 8,  253 => 5,  240 => 112,  238 => 111,  229 => 105,  222 => 100,  220 => 99,  217 => 98,  211 => 97,  201 => 93,  197 => 92,  192 => 91,  187 => 90,  183 => 89,  175 => 83,  169 => 80,  161 => 75,  158 => 74,  148 => 67,  139 => 61,  131 => 56,  124 => 52,  120 => 50,  118 => 49,  112 => 46,  105 => 42,  102 => 41,  89 => 30,  66 => 9,  64 => 8,  58 => 5,  52 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -337,29 +370,54 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
     <meta charset=\"UTF-8\">
     <title>{% block title %}GameRate{% endblock %}</title>
     <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css\">
     {% block stylesheets %}{% endblock %}
+    <style>
+        /* Pequeño ajuste para que la navbar sea más \"Pro\" */
+        .navbar {
+            background-color: #0f172a !important; /* Negro azulado muy oscuro */
+            border-bottom: 2px solid #6366f1; /* Línea morada sutil */
+        }
+        .nav-link {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #a855f7 !important; /* Color morado al pasar el ratón */
+        }
+        .navbar-brand {
+            letter-spacing: -1px;
+        }
+    </style>
 </head>
 <body class=\"bg-light\">
-<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow\">
+<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-lg\">
     <div class=\"container\">
-        <a class=\"navbar-brand fw-bold\" href=\"{{ path('videojuego_index') }}\">🎮 GameRate</a>
+        <a class=\"navbar-brand fw-bold\" href=\"{{ path('videojuego_index') }}\">
+            <span style=\"color: #6366f1;\">🎮</span> GameRate
+        </a>
         <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">
             <span class=\"navbar-toggler-icon\"></span>
         </button>
 
         <div class=\"collapse navbar-collapse\" id=\"navbarNav\">
-            <ul class=\"navbar-nav ms-auto\">
+            <ul class=\"navbar-nav ms-auto align-items-center\">
+
+                {# BOTÓN INICIO AÑADIDO #}
                 <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"{{ path('videojuego_index') }}\">Catálogo</a>
+                    <a class=\"nav-link px-3\" href=\"{{ path('app_home') }}\">Inicio</a>
+                </li>
+
+                <li class=\"nav-item\">
+                    <a class=\"nav-link px-3\" href=\"{{ path('videojuego_index') }}\">Catálogo</a>
                 </li>
 
                 {% if app.user %}
-                    {# MENU PARA USUARIOS LOGUEADOS #}
                     <li class=\"nav-item dropdown\">
                         <a class=\"nav-link dropdown-toggle text-white border border-secondary rounded px-3 ms-lg-2\" href=\"#\" id=\"userMenu\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
                             👤 {{ app.user.userIdentifier }}
                         </a>
-                        <ul class=\"dropdown-menu dropdown-menu-end shadow\" aria-labelledby=\"userMenu\">
+                        <ul class=\"dropdown-menu dropdown-menu-end shadow border-0\" aria-labelledby=\"userMenu\">
                             <li>
                                 <a class=\"dropdown-item\" href=\"{{ path('app_wishlist') }}\">
                                     ❤️ Mis Deseos
@@ -373,18 +431,19 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
                             <li><hr class=\"dropdown-divider\"></li>
                             <li>
                                 <a class=\"dropdown-item text-danger\" href=\"{{ path('app_logout') }}\">
-                                    Cerrar Sesión
+                                    <i class=\"bi bi-box-arrow-right\"></i> Cerrar Sesión
                                 </a>
                             </li>
                         </ul>
                     </li>
                 {% else %}
-                    {# MENU PARA VISITANTES #}
                     <li class=\"nav-item\">
-                        <a class=\"nav-link\" href=\"{{ path('app_login') }}\">Entrar</a>
+                        <a class=\"nav-link px-3\" href=\"{{ path('app_login') }}\">Entrar</a>
                     </li>
                     <li class=\"nav-item\">
-                        <a class=\"btn btn-primary btn-sm mt-1 ms-lg-2\" href=\"{{ path('app_register') }}\">Registrarse</a>
+                        <a class=\"btn btn-primary btn-sm ms-lg-2 px-3\"
+                           style=\"background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); border: none; border-radius: 8px;\"
+                           href=\"{{ path('app_register') }}\">Registrarse</a>
                     </li>
                 {% endif %}
             </ul>
@@ -393,11 +452,10 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
 </nav>
 
 <div class=\"container\">
-    {# Mensajes Flash (Éxito, Error, etc.) #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            {# Mapeo de 'success' a 'success' y 'danger' a 'danger' para Bootstrap #}
-            <div class=\"alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show shadow-sm\" role=\"alert\">
+            <div class=\"alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show shadow-sm border-0\"
+                 style=\"border-radius: 12px; background-color: white; border-left: 5px solid {{ label == 'error' ? '#dc3545' : '#6366f1' }};\" role=\"alert\">
                 {{ message }}
                 <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
             </div>
@@ -407,8 +465,12 @@ class __TwigTemplate_24edd6907074f4f24a93e80de33abf66 extends Template
     {% block body %}{% endblock %}
 </div>
 
-<footer class=\"text-center text-muted mt-5 mb-4\">
-    <small>&copy; {{ \"now\"|date(\"Y\") }} GameRate - Proyecto Final DAM</small>
+<footer class=\"text-center text-muted mt-5 mb-4 py-4\">
+    <div class=\"container border-top pt-4\">
+        <small class=\"fw-bold text-uppercase\" style=\"letter-spacing: 1px;\">
+            &copy; {{ \"now\"|date(\"Y\") }} GameRate <span class=\"mx-2\">|</span> Proyecto Final DAM
+        </small>
+    </div>
 </footer>
 
 <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js\"></script>

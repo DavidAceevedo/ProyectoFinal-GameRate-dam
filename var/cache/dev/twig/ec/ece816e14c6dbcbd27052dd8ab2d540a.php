@@ -31,6 +31,7 @@ class __TwigTemplate_62fd9d38653616ca841f797ab3f1a7dd extends Template
 
         $this->blocks = [
             'title' => [$this, 'block_title'],
+            'stylesheets' => [$this, 'block_stylesheets'],
             'body' => [$this, 'block_body'],
         ];
     }
@@ -87,6 +88,124 @@ class __TwigTemplate_62fd9d38653616ca841f797ab3f1a7dd extends Template
     /**
      * @return iterable<null|scalar|\Stringable>
      */
+    public function block_stylesheets(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
+
+        // line 6
+        yield "    <style>
+        /* Estilo Innovador: Glassmorphism y Elevación */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            /* Un degradado de gris azulado claro a un lavanda muy suave */
+            background: linear-gradient(135deg, #e2e8f0 0%, #ddd6fe 100%) !important;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            color: #1e293b;
+        }
+
+        .game-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px !important;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            transition: transform 0.6s ease;
+        }
+
+        .game-card:hover .img-container img {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .category-badge {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-custom-info {
+            border-radius: 10px;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-custom-info:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Buscador Moderno */
+        .search-input {
+            border-radius: 15px 0 0 15px !important;
+            border: 2px solid #e5e7eb;
+            padding: 12px 20px;
+        }
+
+        .search-btn {
+            border-radius: 0 15px 15px 0 !important;
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0 25px;
+        }
+
+        /* Estilo para botón Home */
+        .btn-home {
+            border-radius: 12px;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-home:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            transform: scale(1.05);
+        }
+    </style>
+";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        yield from [];
+    }
+
+    // line 102
+    /**
+     * @return iterable<null|scalar|\Stringable>
+     */
     public function block_body(array $context, array $blocks = []): iterable
     {
         $macros = $this->macros;
@@ -96,156 +215,169 @@ class __TwigTemplate_62fd9d38653616ca841f797ab3f1a7dd extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 6
-        yield "    <div class=\"d-flex justify-content-between align-items-center mb-4\">
-        <h1 class=\"h3\">🎮 Catálogo de Videojuegos</h1>
-        ";
-        // line 8
-        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 8, $this->source); })()), "user", [], "any", false, false, false, 8)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 9
-            yield "            <a href=\"";
+        // line 103
+        yield "    <div class=\"d-flex justify-content-between align-items-center mb-5 mt-3 flex-wrap gap-3\">
+        <h1 class=\"fw-extrabold text-dark mb-0\" style=\"letter-spacing: -1px;\">🎮 <span class=\"text-transparent bg-clip-text\" style=\"background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;\">Catálogo de Videojuegos</span></h1>
+
+        <div class=\"d-flex gap-2\">
+
+            ";
+        // line 108
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 108, $this->source); })()), "user", [], "any", false, false, false, 108)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 109
+            yield "                <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_new");
-            yield "\" class=\"btn btn-success\">+ Añadir Juego</a>
-        ";
+            yield "\" class=\"btn text-white shadow-sm px-4 py-2\" style=\"background: var(--primary-gradient); border-radius: 12px; font-weight: 600;\">+ Añadir Juego</a>
+            ";
         }
-        // line 11
-        yield "    </div>
+        // line 111
+        yield "        </div>
+    </div>
 
     ";
-        // line 14
-        yield "    <div class=\"row mb-4\">
-        <div class=\"col-md-6\">
+        // line 115
+        yield "    <div class=\"row mb-5 justify-content-center\">
+        <div class=\"col-md-8\">
             <form action=\"";
-        // line 16
+        // line 117
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_index");
-        yield "\" method=\"get\" class=\"d-flex shadow-sm\">
-                <input type=\"text\" name=\"q\" class=\"form-control me-2\" placeholder=\"Buscar por título...\" value=\"";
-        // line 17
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("busqueda", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["busqueda"]) || array_key_exists("busqueda", $context) ? $context["busqueda"] : (function () { throw new RuntimeError('Variable "busqueda" does not exist.', 17, $this->source); })()), "")) : ("")), "html", null, true);
+        yield "\" method=\"get\" class=\"d-flex shadow-sm\" style=\"border-radius: 15px;\">
+                <input type=\"text\" name=\"q\" class=\"form-control search-input\" placeholder=\"¿Qué quieres jugar hoy?...\" value=\"";
+        // line 118
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("busqueda", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["busqueda"]) || array_key_exists("busqueda", $context) ? $context["busqueda"] : (function () { throw new RuntimeError('Variable "busqueda" does not exist.', 118, $this->source); })()), "")) : ("")), "html", null, true);
         yield "\">
-                <button class=\"btn btn-primary\" type=\"submit\">Buscar</button>
-                ";
-        // line 19
-        if ((array_key_exists("busqueda", $context) &&  !Twig\Extension\CoreExtension::testEmpty((isset($context["busqueda"]) || array_key_exists("busqueda", $context) ? $context["busqueda"] : (function () { throw new RuntimeError('Variable "busqueda" does not exist.', 19, $this->source); })())))) {
-            // line 20
-            yield "                    <a href=\"";
-            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_index");
-            yield "\" class=\"btn btn-outline-secondary ms-2\">Limpiar</a>
-                ";
-        }
-        // line 22
-        yield "            </form>
+                <button class=\"btn btn-primary search-btn\" type=\"submit\">Buscar</button>
+            </form>
         </div>
     </div>
 
     <div class=\"row\">
         ";
-        // line 27
+        // line 125
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["videojuegos"]) || array_key_exists("videojuegos", $context) ? $context["videojuegos"] : (function () { throw new RuntimeError('Variable "videojuegos" does not exist.', 27, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["videojuegos"]) || array_key_exists("videojuegos", $context) ? $context["videojuegos"] : (function () { throw new RuntimeError('Variable "videojuegos" does not exist.', 125, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["videojuego"]) {
-            // line 28
-            yield "            <div class=\"col-md-4 mb-4\">
-                <div class=\"card h-100 shadow-sm border-0\">
-                    <div class=\"card-body text-center bg-white py-4\">
-                        <span style=\"font-size: 3rem;\">🕹️</span>
-                        <h5 class=\"card-title text-primary mt-3\">";
-            // line 32
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "titulo", [], "any", false, false, false, 32), "html", null, true);
+            // line 126
+            yield "            <div class=\"col-md-4 mb-5\">
+                <div class=\"card game-card h-100 border-0 shadow-sm\">
+
+                    ";
+            // line 130
+            yield "                    <div class=\"img-container\" style=\"height: 220px; background-color: #f8f9fa;\">
+                        ";
+            // line 131
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "imagen", [], "any", false, false, false, 131)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 132
+                yield "                            <img src=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "imagen", [], "any", false, false, false, 132), "html", null, true);
+                yield "\"
+                                 class=\"w-100 h-100\"
+                                 style=\"object-fit: cover;\"
+                                 alt=\"";
+                // line 135
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "titulo", [], "any", false, false, false, 135), "html", null, true);
+                yield "\"
+                                 referrerpolicy=\"no-referrer\">
+                        ";
+            } else {
+                // line 138
+                yield "                            <div class=\"d-flex align-items-center justify-content-center h-100 bg-light text-muted\">
+                                <span style=\"font-size: 3rem;\">🕹️</span>
+                            </div>
+                        ";
+            }
+            // line 142
+            yield "                    </div>
+
+                    <div class=\"card-body text-center bg-white px-4\">
+                        <h5 class=\"fw-bold text-dark mb-2\">";
+            // line 145
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "titulo", [], "any", false, false, false, 145), "html", null, true);
             yield "</h5>
 
-                        ";
-            // line 35
-            yield "                        <span class=\"badge bg-info text-dark\">
-                            📂 ";
-            // line 36
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "categoria", [], "any", false, false, false, 36)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "categoria", [], "any", false, false, false, 36), "nombre", [], "any", false, false, false, 36), "html", null, true)) : ("Sin categoría"));
+                        <span class=\"badge category-badge mb-3\">
+                            ";
+            // line 148
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "categoria", [], "any", false, false, false, 148)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "categoria", [], "any", false, false, false, 148), "nombre", [], "any", false, false, false, 148), "html", null, true)) : ("Sin categoría"));
             yield "
                         </span>
 
-                        ";
-            // line 40
-            yield "                        <div class=\"mt-2\">
+                        <div class=\"d-flex flex-wrap justify-content-center gap-1 mb-3\">
                             ";
-            // line 41
+            // line 152
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "plataformas", [], "any", false, false, false, 41));
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "plataformas", [], "any", false, false, false, 152));
             foreach ($context['_seq'] as $context["_key"] => $context["plataforma"]) {
-                // line 42
-                yield "                                <span class=\"badge bg-dark\" style=\"font-size: 0.65rem;\">";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["plataforma"], "nombre", [], "any", false, false, false, 42), "html", null, true);
+                // line 153
+                yield "                                <span class=\"badge rounded-pill bg-light text-dark border\" style=\"font-size: 0.7rem;\">";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["plataforma"], "nombre", [], "any", false, false, false, 153), "html", null, true);
                 yield "</span>
                             ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['plataforma'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 44
+            // line 155
             yield "                        </div>
-                    </div>
 
-                    <div class=\"card-body bg-white pt-0\">
-                        <p class=\"card-text text-muted small\">
+                        <p class=\"card-text text-muted small px-2\">
                             ";
-            // line 49
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::slice($this->env->getCharset(), ((CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "descripcion", [], "any", true, true, false, 49)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "descripcion", [], "any", false, false, false, 49), "Sin descripción.")) : ("Sin descripción.")), 0, 80), "html", null, true);
+            // line 158
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::slice($this->env->getCharset(), ((CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "descripcion", [], "any", true, true, false, 158)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "descripcion", [], "any", false, false, false, 158), "Sin descripción.")) : ("Sin descripción.")), 0, 75), "html", null, true);
             yield "...
                         </p>
                     </div>
 
-                    <div class=\"card-footer bg-white border-top-0 d-flex justify-content-between align-items-center pb-3\">
-                        <div class=\"btn-group\">
+                    <div class=\"card-footer bg-white border-0 d-flex justify-content-between align-items-center pb-4 px-4\">
+                        <div class=\"w-100 d-flex justify-content-between align-items-center\">
                             <a href=\"";
-            // line 55
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 55)]), "html", null, true);
-            yield "\" class=\"btn btn-outline-info btn-sm\">Ver</a>
-                            ";
-            // line 56
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 56, $this->source); })()), "user", [], "any", false, false, false, 56)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 57
-                yield "                                <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 57)]), "html", null, true);
-                yield "\" class=\"btn btn-outline-warning btn-sm\">Editar</a>
-                            ";
-            }
-            // line 59
-            yield "                        </div>
+            // line 164
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 164)]), "html", null, true);
+            yield "\" class=\"btn btn-custom-info btn-sm px-4\">Detalles</a>
 
-                        ";
-            // line 61
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 61, $this->source); })()), "user", [], "any", false, false, false, 61)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 62
-                yield "                            <form method=\"post\" action=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 62)]), "html", null, true);
-                yield "\" onsubmit=\"return confirm('¿Borrar este juego?');\">
-                                <input type=\"hidden\" name=\"_token\" value=\"";
-                // line 63
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 63))), "html", null, true);
+                            <div class=\"d-flex align-items-center\">
+                                ";
+            // line 167
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 167, $this->source); })()), "user", [], "any", false, false, false, 167)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 168
+                yield "                                    <a href=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 168)]), "html", null, true);
+                yield "\" class=\"text-warning me-3\" title=\"Editar\" style=\"text-decoration:none;\">✏️</a>
+
+                                    <form method=\"post\" action=\"";
+                // line 170
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("videojuego_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 170)]), "html", null, true);
+                yield "\" onsubmit=\"return confirm('¿Borrar este juego?');\" class=\"d-inline\">
+                                        <input type=\"hidden\" name=\"_token\" value=\"";
+                // line 171
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["videojuego"], "id", [], "any", false, false, false, 171))), "html", null, true);
                 yield "\">
-                                <button class=\"btn btn-link text-danger p-0 ms-2\" style=\"text-decoration:none;\">🗑️ Borrar</button>
-                            </form>
-                        ";
+                                        <button class=\"btn btn-link text-danger p-0 m-0\" style=\"text-decoration:none;\">🗑️</button>
+                                    </form>
+                                ";
             }
-            // line 67
-            yield "                    </div>
+            // line 175
+            yield "                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         ";
             $context['_iterated'] = true;
         }
-        // line 70
+        // line 180
         if (!$context['_iterated']) {
-            // line 71
+            // line 181
             yield "            <div class=\"col-12 text-center py-5\">
-                <p class=\"lead text-muted\">No se encontraron videojuegos.</p>
+                <p class=\"lead text-muted\">No se encontraron videojuegos en la base de datos.</p>
             </div>
         ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['videojuego'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 75
+        // line 185
         yield "    </div>
 ";
         
@@ -278,7 +410,7 @@ class __TwigTemplate_62fd9d38653616ca841f797ab3f1a7dd extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  249 => 75,  240 => 71,  238 => 70,  231 => 67,  224 => 63,  219 => 62,  217 => 61,  213 => 59,  207 => 57,  205 => 56,  201 => 55,  192 => 49,  185 => 44,  176 => 42,  172 => 41,  169 => 40,  163 => 36,  160 => 35,  155 => 32,  149 => 28,  144 => 27,  137 => 22,  131 => 20,  129 => 19,  124 => 17,  120 => 16,  116 => 14,  112 => 11,  106 => 9,  104 => 8,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  381 => 185,  372 => 181,  370 => 180,  361 => 175,  354 => 171,  350 => 170,  344 => 168,  342 => 167,  336 => 164,  327 => 158,  322 => 155,  313 => 153,  309 => 152,  302 => 148,  296 => 145,  291 => 142,  285 => 138,  279 => 135,  272 => 132,  270 => 131,  267 => 130,  262 => 126,  257 => 125,  247 => 118,  243 => 117,  239 => 115,  234 => 111,  228 => 109,  226 => 108,  219 => 103,  206 => 102,  101 => 6,  88 => 5,  65 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -287,74 +419,184 @@ class __TwigTemplate_62fd9d38653616ca841f797ab3f1a7dd extends Template
 
 {% block title %}Catálogo - GameRate{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        /* Estilo Innovador: Glassmorphism y Elevación */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            /* Un degradado de gris azulado claro a un lavanda muy suave */
+            background: linear-gradient(135deg, #e2e8f0 0%, #ddd6fe 100%) !important;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            color: #1e293b;
+        }
+
+        .game-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px !important;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            transition: transform 0.6s ease;
+        }
+
+        .game-card:hover .img-container img {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .category-badge {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-custom-info {
+            border-radius: 10px;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-custom-info:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Buscador Moderno */
+        .search-input {
+            border-radius: 15px 0 0 15px !important;
+            border: 2px solid #e5e7eb;
+            padding: 12px 20px;
+        }
+
+        .search-btn {
+            border-radius: 0 15px 15px 0 !important;
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0 25px;
+        }
+
+        /* Estilo para botón Home */
+        .btn-home {
+            border-radius: 12px;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-home:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            transform: scale(1.05);
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class=\"d-flex justify-content-between align-items-center mb-4\">
-        <h1 class=\"h3\">🎮 Catálogo de Videojuegos</h1>
-        {% if app.user %}
-            <a href=\"{{ path('videojuego_new') }}\" class=\"btn btn-success\">+ Añadir Juego</a>
-        {% endif %}
+    <div class=\"d-flex justify-content-between align-items-center mb-5 mt-3 flex-wrap gap-3\">
+        <h1 class=\"fw-extrabold text-dark mb-0\" style=\"letter-spacing: -1px;\">🎮 <span class=\"text-transparent bg-clip-text\" style=\"background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;\">Catálogo de Videojuegos</span></h1>
+
+        <div class=\"d-flex gap-2\">
+
+            {% if app.user %}
+                <a href=\"{{ path('videojuego_new') }}\" class=\"btn text-white shadow-sm px-4 py-2\" style=\"background: var(--primary-gradient); border-radius: 12px; font-weight: 600;\">+ Añadir Juego</a>
+            {% endif %}
+        </div>
     </div>
 
-    {# Buscador #}
-    <div class=\"row mb-4\">
-        <div class=\"col-md-6\">
-            <form action=\"{{ path('videojuego_index') }}\" method=\"get\" class=\"d-flex shadow-sm\">
-                <input type=\"text\" name=\"q\" class=\"form-control me-2\" placeholder=\"Buscar por título...\" value=\"{{ busqueda|default('') }}\">
-                <button class=\"btn btn-primary\" type=\"submit\">Buscar</button>
-                {% if busqueda is defined and busqueda is not empty %}
-                    <a href=\"{{ path('videojuego_index') }}\" class=\"btn btn-outline-secondary ms-2\">Limpiar</a>
-                {% endif %}
+    {# Buscador Modernizado #}
+    <div class=\"row mb-5 justify-content-center\">
+        <div class=\"col-md-8\">
+            <form action=\"{{ path('videojuego_index') }}\" method=\"get\" class=\"d-flex shadow-sm\" style=\"border-radius: 15px;\">
+                <input type=\"text\" name=\"q\" class=\"form-control search-input\" placeholder=\"¿Qué quieres jugar hoy?...\" value=\"{{ busqueda|default('') }}\">
+                <button class=\"btn btn-primary search-btn\" type=\"submit\">Buscar</button>
             </form>
         </div>
     </div>
 
     <div class=\"row\">
         {% for videojuego in videojuegos %}
-            <div class=\"col-md-4 mb-4\">
-                <div class=\"card h-100 shadow-sm border-0\">
-                    <div class=\"card-body text-center bg-white py-4\">
-                        <span style=\"font-size: 3rem;\">🕹️</span>
-                        <h5 class=\"card-title text-primary mt-3\">{{ videojuego.titulo }}</h5>
+            <div class=\"col-md-4 mb-5\">
+                <div class=\"card game-card h-100 border-0 shadow-sm\">
 
-                        {# CORRECCIÓN: Usamos categoria en lugar de genero #}
-                        <span class=\"badge bg-info text-dark\">
-                            📂 {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
-                        </span>
-
-                        {# EXTRA: Mostramos las plataformas también aquí #}
-                        <div class=\"mt-2\">
-                            {% for plataforma in videojuego.plataformas %}
-                                <span class=\"badge bg-dark\" style=\"font-size: 0.65rem;\">{{ plataforma.nombre }}</span>
-                            {% endfor %}
-                        </div>
+                    {# IMAGEN CON EFECTO #}
+                    <div class=\"img-container\" style=\"height: 220px; background-color: #f8f9fa;\">
+                        {% if videojuego.imagen %}
+                            <img src=\"{{ videojuego.imagen }}\"
+                                 class=\"w-100 h-100\"
+                                 style=\"object-fit: cover;\"
+                                 alt=\"{{ videojuego.titulo }}\"
+                                 referrerpolicy=\"no-referrer\">
+                        {% else %}
+                            <div class=\"d-flex align-items-center justify-content-center h-100 bg-light text-muted\">
+                                <span style=\"font-size: 3rem;\">🕹️</span>
+                            </div>
+                        {% endif %}
                     </div>
 
-                    <div class=\"card-body bg-white pt-0\">
-                        <p class=\"card-text text-muted small\">
-                            {{ videojuego.descripcion|default('Sin descripción.')|slice(0, 80) }}...
+                    <div class=\"card-body text-center bg-white px-4\">
+                        <h5 class=\"fw-bold text-dark mb-2\">{{ videojuego.titulo }}</h5>
+
+                        <span class=\"badge category-badge mb-3\">
+                            {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
+                        </span>
+
+                        <div class=\"d-flex flex-wrap justify-content-center gap-1 mb-3\">
+                            {% for plataforma in videojuego.plataformas %}
+                                <span class=\"badge rounded-pill bg-light text-dark border\" style=\"font-size: 0.7rem;\">{{ plataforma.nombre }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p class=\"card-text text-muted small px-2\">
+                            {{ videojuego.descripcion|default('Sin descripción.')|slice(0, 75) }}...
                         </p>
                     </div>
 
-                    <div class=\"card-footer bg-white border-top-0 d-flex justify-content-between align-items-center pb-3\">
-                        <div class=\"btn-group\">
-                            <a href=\"{{ path('videojuego_show', {'id': videojuego.id}) }}\" class=\"btn btn-outline-info btn-sm\">Ver</a>
-                            {% if app.user %}
-                                <a href=\"{{ path('videojuego_edit', {'id': videojuego.id}) }}\" class=\"btn btn-outline-warning btn-sm\">Editar</a>
-                            {% endif %}
-                        </div>
+                    <div class=\"card-footer bg-white border-0 d-flex justify-content-between align-items-center pb-4 px-4\">
+                        <div class=\"w-100 d-flex justify-content-between align-items-center\">
+                            <a href=\"{{ path('videojuego_show', {'id': videojuego.id}) }}\" class=\"btn btn-custom-info btn-sm px-4\">Detalles</a>
 
-                        {% if app.user %}
-                            <form method=\"post\" action=\"{{ path('videojuego_delete', {'id': videojuego.id}) }}\" onsubmit=\"return confirm('¿Borrar este juego?');\">
-                                <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ videojuego.id) }}\">
-                                <button class=\"btn btn-link text-danger p-0 ms-2\" style=\"text-decoration:none;\">🗑️ Borrar</button>
-                            </form>
-                        {% endif %}
+                            <div class=\"d-flex align-items-center\">
+                                {% if app.user %}
+                                    <a href=\"{{ path('videojuego_edit', {'id': videojuego.id}) }}\" class=\"text-warning me-3\" title=\"Editar\" style=\"text-decoration:none;\">✏️</a>
+
+                                    <form method=\"post\" action=\"{{ path('videojuego_delete', {'id': videojuego.id}) }}\" onsubmit=\"return confirm('¿Borrar este juego?');\" class=\"d-inline\">
+                                        <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ videojuego.id) }}\">
+                                        <button class=\"btn btn-link text-danger p-0 m-0\" style=\"text-decoration:none;\">🗑️</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         {% else %}
             <div class=\"col-12 text-center py-5\">
-                <p class=\"lead text-muted\">No se encontraron videojuegos.</p>
+                <p class=\"lead text-muted\">No se encontraron videojuegos en la base de datos.</p>
             </div>
         {% endfor %}
     </div>

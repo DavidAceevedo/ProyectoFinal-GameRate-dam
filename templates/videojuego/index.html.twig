@@ -2,74 +2,184 @@
 
 {% block title %}Catálogo - GameRate{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        /* Estilo Innovador: Glassmorphism y Elevación */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            /* Un degradado de gris azulado claro a un lavanda muy suave */
+            background: linear-gradient(135deg, #e2e8f0 0%, #ddd6fe 100%) !important;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            color: #1e293b;
+        }
+
+        .game-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px !important;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            transition: transform 0.6s ease;
+        }
+
+        .game-card:hover .img-container img {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .category-badge {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-custom-info {
+            border-radius: 10px;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-custom-info:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Buscador Moderno */
+        .search-input {
+            border-radius: 15px 0 0 15px !important;
+            border: 2px solid #e5e7eb;
+            padding: 12px 20px;
+        }
+
+        .search-btn {
+            border-radius: 0 15px 15px 0 !important;
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0 25px;
+        }
+
+        /* Estilo para botón Home */
+        .btn-home {
+            border-radius: 12px;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-home:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            transform: scale(1.05);
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3">🎮 Catálogo de Videojuegos</h1>
-        {% if app.user %}
-            <a href="{{ path('videojuego_new') }}" class="btn btn-success">+ Añadir Juego</a>
-        {% endif %}
+    <div class="d-flex justify-content-between align-items-center mb-5 mt-3 flex-wrap gap-3">
+        <h1 class="fw-extrabold text-dark mb-0" style="letter-spacing: -1px;">🎮 <span class="text-transparent bg-clip-text" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Catálogo de Videojuegos</span></h1>
+
+        <div class="d-flex gap-2">
+
+            {% if app.user %}
+                <a href="{{ path('videojuego_new') }}" class="btn text-white shadow-sm px-4 py-2" style="background: var(--primary-gradient); border-radius: 12px; font-weight: 600;">+ Añadir Juego</a>
+            {% endif %}
+        </div>
     </div>
 
-    {# Buscador #}
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <form action="{{ path('videojuego_index') }}" method="get" class="d-flex shadow-sm">
-                <input type="text" name="q" class="form-control me-2" placeholder="Buscar por título..." value="{{ busqueda|default('') }}">
-                <button class="btn btn-primary" type="submit">Buscar</button>
-                {% if busqueda is defined and busqueda is not empty %}
-                    <a href="{{ path('videojuego_index') }}" class="btn btn-outline-secondary ms-2">Limpiar</a>
-                {% endif %}
+    {# Buscador Modernizado #}
+    <div class="row mb-5 justify-content-center">
+        <div class="col-md-8">
+            <form action="{{ path('videojuego_index') }}" method="get" class="d-flex shadow-sm" style="border-radius: 15px;">
+                <input type="text" name="q" class="form-control search-input" placeholder="¿Qué quieres jugar hoy?..." value="{{ busqueda|default('') }}">
+                <button class="btn btn-primary search-btn" type="submit">Buscar</button>
             </form>
         </div>
     </div>
 
     <div class="row">
         {% for videojuego in videojuegos %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center bg-white py-4">
-                        <span style="font-size: 3rem;">🕹️</span>
-                        <h5 class="card-title text-primary mt-3">{{ videojuego.titulo }}</h5>
+            <div class="col-md-4 mb-5">
+                <div class="card game-card h-100 border-0 shadow-sm">
 
-                        {# CORRECCIÓN: Usamos categoria en lugar de genero #}
-                        <span class="badge bg-info text-dark">
-                            📂 {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
-                        </span>
-
-                        {# EXTRA: Mostramos las plataformas también aquí #}
-                        <div class="mt-2">
-                            {% for plataforma in videojuego.plataformas %}
-                                <span class="badge bg-dark" style="font-size: 0.65rem;">{{ plataforma.nombre }}</span>
-                            {% endfor %}
-                        </div>
+                    {# IMAGEN CON EFECTO #}
+                    <div class="img-container" style="height: 220px; background-color: #f8f9fa;">
+                        {% if videojuego.imagen %}
+                            <img src="{{ videojuego.imagen }}"
+                                 class="w-100 h-100"
+                                 style="object-fit: cover;"
+                                 alt="{{ videojuego.titulo }}"
+                                 referrerpolicy="no-referrer">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted">
+                                <span style="font-size: 3rem;">🕹️</span>
+                            </div>
+                        {% endif %}
                     </div>
 
-                    <div class="card-body bg-white pt-0">
-                        <p class="card-text text-muted small">
-                            {{ videojuego.descripcion|default('Sin descripción.')|slice(0, 80) }}...
+                    <div class="card-body text-center bg-white px-4">
+                        <h5 class="fw-bold text-dark mb-2">{{ videojuego.titulo }}</h5>
+
+                        <span class="badge category-badge mb-3">
+                            {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
+                        </span>
+
+                        <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">
+                            {% for plataforma in videojuego.plataformas %}
+                                <span class="badge rounded-pill bg-light text-dark border" style="font-size: 0.7rem;">{{ plataforma.nombre }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p class="card-text text-muted small px-2">
+                            {{ videojuego.descripcion|default('Sin descripción.')|slice(0, 75) }}...
                         </p>
                     </div>
 
-                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center pb-3">
-                        <div class="btn-group">
-                            <a href="{{ path('videojuego_show', {'id': videojuego.id}) }}" class="btn btn-outline-info btn-sm">Ver</a>
-                            {% if app.user %}
-                                <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="btn btn-outline-warning btn-sm">Editar</a>
-                            {% endif %}
-                        </div>
+                    <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center pb-4 px-4">
+                        <div class="w-100 d-flex justify-content-between align-items-center">
+                            <a href="{{ path('videojuego_show', {'id': videojuego.id}) }}" class="btn btn-custom-info btn-sm px-4">Detalles</a>
 
-                        {% if app.user %}
-                            <form method="post" action="{{ path('videojuego_delete', {'id': videojuego.id}) }}" onsubmit="return confirm('¿Borrar este juego?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ videojuego.id) }}">
-                                <button class="btn btn-link text-danger p-0 ms-2" style="text-decoration:none;">🗑️ Borrar</button>
-                            </form>
-                        {% endif %}
+                            <div class="d-flex align-items-center">
+                                {% if app.user %}
+                                    <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="text-warning me-3" title="Editar" style="text-decoration:none;">✏️</a>
+
+                                    <form method="post" action="{{ path('videojuego_delete', {'id': videojuego.id}) }}" onsubmit="return confirm('¿Borrar este juego?');" class="d-inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ videojuego.id) }}">
+                                        <button class="btn btn-link text-danger p-0 m-0" style="text-decoration:none;">🗑️</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         {% else %}
             <div class="col-12 text-center py-5">
-                <p class="lead text-muted">No se encontraron videojuegos.</p>
+                <p class="lead text-muted">No se encontraron videojuegos en la base de datos.</p>
             </div>
         {% endfor %}
     </div>

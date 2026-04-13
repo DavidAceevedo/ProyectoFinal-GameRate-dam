@@ -2,25 +2,103 @@
 
 {% block title %}Mi Lista de Deseos{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        /* FONDO CLARO QUE PEGA CON EL MORADO */
+        body {
+            background: linear-gradient(135deg, #e2e8f0 0%, #ddd6fe 100%) !important;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .wishlist-card {
+            transition: all 0.3s ease;
+            border-radius: 15px !important;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        }
+
+        .wishlist-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+        .game-title {
+            color: #1f2937;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .btn-view {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 10px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .btn-view:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .empty-state {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="container mt-4">
-        <h1 class="mb-4">❤️ Mi Lista de Deseos</h1>
+        <h1 class="fw-extrabold mb-5 text-dark" style="letter-spacing: -1px;">
+            ❤️ <span class="text-transparent bg-clip-text" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Mi Lista de Deseos
+            </span>
+        </h1>
 
         {% if deseos is empty %}
-            <div class="alert alert-info">
-                Aún no tienes juegos en tu lista. ¡Explora el <a href="{{ path('videojuego_index') }}">catálogo</a>!
+            <div class="empty-state text-center border-0">
+                <div class="display-1 mb-3">👻</div>
+                <h3 class="text-dark">¿Está un poco vacío, no?</h3>
+                <p class="text-muted">Aún no tienes juegos en tu lista. ¡Explora el catálogo y guarda tus favoritos!</p>
+                <a href="{{ path('videojuego_index') }}" class="btn text-white mt-3 px-4 py-2" style="background: var(--primary-gradient); border-radius: 12px; font-weight: 600;">
+                    Explorar Catálogo
+                </a>
             </div>
         {% else %}
             <div class="row">
                 {% for deseo in deseos %}
-                    <div class="col-md-6 mb-3">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="mb-0">{{ deseo.videojuego.titulo }}</h5>
-                                    <small class="text-muted">Añadido el: {{ deseo.fechaAgregado|date('d/m/Y') }}</small>
+                    <div class="col-md-6 mb-4">
+                        <div class="card wishlist-card shadow-sm border-0">
+                            <div class="card-body d-flex justify-content-between align-items-center p-4">
+                                <div class="d-flex align-items-center">
+                                    {# Mini avatar de imagen original (50px) #}
+                                    <div class="me-3" style="width: 50px; height: 50px; border-radius: 10px; overflow: hidden; background: #eee;">
+                                        {% if deseo.videojuego.imagen %}
+                                            <img src="{{ deseo.videojuego.imagen }}" class="w-100 h-100" style="object-fit: cover;" referrerpolicy="no-referrer">
+                                        {% else %}
+                                            <div class="d-flex align-items-center justify-content-center h-100">🕹️</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <h5 class="game-title mb-0">{{ deseo.videojuego.titulo }}</h5>
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar-event"></i> Agregado: {{ deseo.fechaAgregado|date('d/m/Y') }}
+                                        </small>
+                                    </div>
                                 </div>
-                                <a href="{{ path('videojuego_show', {'id': deseo.videojuego.id}) }}" class="btn btn-sm btn-primary">Ver Juego</a>
+                                <a href="{{ path('videojuego_show', {'id': deseo.videojuego.id}) }}" class="btn btn-view btn-primary text-white">Ver Juego</a>
                             </div>
                         </div>
                     </div>

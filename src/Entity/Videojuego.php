@@ -40,6 +40,9 @@ class Videojuego
     #[ORM\ManyToMany(targetEntity: Plataforma::class, inversedBy: 'videojuegos')]
     private Collection $plataformas;
 
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $imagen = null;
+
     public function __construct()
     {
         $this->opiniones = new ArrayCollection();
@@ -100,6 +103,18 @@ class Videojuego
     public function removePlataforma(Plataforma $plataforma): self
     {
         $this->plataformas->removeElement($plataforma);
+        return $this;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): static
+    {
+        $this->imagen = $imagen;
+
         return $this;
     }
 }

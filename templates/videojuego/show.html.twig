@@ -1,105 +1,221 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ videojuego.titulo }}{% endblock %}
+{% block title %}{{ videojuego.titulo }} - GameRate{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        /* FONDO CLARO QUE PEGA CON EL MORADO */
+        body {
+            background: linear-gradient(135deg, #e2e8f0 0%, #ddd6fe 100%) !important;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        /* Contenedor de imagen con efecto */
+        .game-cover-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .game-header-card {
+            border-radius: 20px !important;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+        }
+
+        .badge-category {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Estilo de las opiniones */
+        .opinion-card {
+            border-radius: 15px !important;
+            background: white;
+            transition: transform 0.2s;
+            border: 1px solid rgba(0,0,0,0.05) !important;
+        }
+
+        .opinion-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #6366f1;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-wishlist {
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-wishlist:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-action-side {
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 12px;
+            transition: all 0.3s;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-    <div class="row">
+    <div class="row mt-4 pb-5">
+        {# COLUMNA IZQUIERDA: Imagen y Acciones Rápidas #}
+        <div class="col-md-4 mb-4">
+            <div class="game-cover-container mb-4 shadow-lg">
+                {% if videojuego.imagen %}
+                    <img src="{{ videojuego.imagen }}" class="w-100" style="object-fit: cover;" alt="{{ videojuego.titulo }}" referrerpolicy="no-referrer">
+                {% else %}
+                    <div class="d-flex align-items-center justify-content-center bg-white" style="height: 450px;">
+                        <span style="font-size: 5rem;">🕹️</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="card border-0 shadow-sm" style="border-radius: 20px; background: rgba(255, 255, 255, 0.7);">
+                <div class="card-body p-3">
+                    <a href="{{ path('videojuego_index') }}" class="btn btn-light btn-action-side w-100 mb-2 border">
+                        ← Volver al catálogo
+                    </a>
+                    {% if app.user %}
+                        <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="btn btn-outline-warning btn-action-side w-100">
+                            ✏️ Editar Información
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# COLUMNA DERECHA: Detalles y Opiniones #}
         <div class="col-md-8">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h1 class="display-5 fw-bold">{{ videojuego.titulo }}</h1>
-                            <span class="badge bg-primary fs-6 mb-3">
-                                📂 {{ videojuego.categoria ? videojuego.categoria.nombre : 'Sin categoría' }}
+            <div class="card game-header-card shadow-sm mb-4">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+                        <div class="mb-3">
+                            <span class="badge badge-category mb-2">
+                                {{ videojuego.categoria ? videojuego.categoria.nombre : 'General' }}
                             </span>
+                            <h1 class="display-4 fw-black text-dark" style="letter-spacing: -1.5px;">{{ videojuego.titulo }}</h1>
                         </div>
 
-                        {# BOTÓN DE LISTA DE DESEOS (Entidad 3 - Ampliación) #}
                         {% if app.user %}
-                            <a href="{{ path('videojuego_wishlist', {'id': videojuego.id}) }}" class="btn btn-outline-danger">
+                            <a href="{{ path('videojuego_wishlist', {'id': videojuego.id}) }}" class="btn btn-outline-danger btn-wishlist px-4 py-2">
                                 ❤️ Añadir a Deseos
                             </a>
                         {% endif %}
                     </div>
 
-                    <p class="lead text-muted mt-3">{{ videojuego.descripcion }}</p>
+                    <div class="mt-4">
+                        <h5 class="fw-bold text-uppercase small text-muted mb-3">Descripción</h5>
+                        <p class="lead text-dark" style="line-height: 1.6;">{{ videojuego.descripcion|default('Este juego aún no tiene una descripción detallada.') }}</p>
+                    </div>
 
-                    <hr>
-
-                    <h5 class="fw-bold mb-3">Disponible en:</h5>
-                    <div class="d-flex gap-2">
-                        {% for plataforma in videojuego.plataformas %}
-                            <span class="badge bg-dark py-2 px-3">🎮 {{ plataforma.nombre }}</span>
-                        {% else %}
-                            <span class="text-muted italic">No hay plataformas asignadas.</span>
-                        {% endfor %}
+                    <div class="mt-4">
+                        <h5 class="fw-bold text-uppercase small text-muted mb-3">Disponible en:</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for plataforma in videojuego.plataformas %}
+                                <span class="badge bg-dark px-3 py-2 fs-6" style="border-radius: 10px;">🎮 {{ plataforma.nombre }}</span>
+                            {% else %}
+                                <span class="text-muted italic">Consultar disponibilidad.</span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
 
             {# --- SECCIÓN DE OPINIONES --- #}
-            <div class="mt-5">
-                <h3 class="h4 mb-4">💬 Opiniones de la comunidad</h3>
+            <div class="mt-5 pt-3">
+                <div class="d-flex align-items-center mb-4">
+                    <h3 class="fw-bold text-dark mb-0">💬 Opiniones de la comunidad</h3>
+                    <span class="badge bg-white text-dark ms-3 border shadow-sm">{{ videojuego.opiniones|length }} reseñas</span>
+                </div>
 
                 {% for opinion in videojuego.opiniones %}
-                    <div class="card mb-3 border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="fw-bold mb-0">👤 {{ opinion.autor.userIdentifier }}</h6>
+                    <div class="card opinion-card mb-3 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-avatar me-3">
+                                        {{ opinion.autor.userIdentifier|first|upper }}
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold text-dark mb-0">{{ opinion.autor.userIdentifier }}</h6>
+                                        <small class="text-muted">Jugador verificado</small>
+                                    </div>
+                                </div>
 
-                                {# Visualización de la nota con estrellas #}
-                                <div class="text-warning fs-5">
+                                <div class="text-warning">
                                     {% if opinion.nota is defined %}
                                         {% for i in 1..5 %}
-                                            {{ i <= opinion.nota ? '★' : '☆' }}
+                                            <span style="font-size: 1.2rem;">{{ i <= opinion.nota ? '★' : '☆' }}</span>
                                         {% endfor %}
                                     {% endif %}
                                 </div>
                             </div>
-                            <p class="mb-0 mt-2 text-secondary">{{ opinion.comentario }}</p>
+                            <p class="mb-0 text-secondary mt-3 italic">"{{ opinion.comentario }}"</p>
                         </div>
                     </div>
                 {% else %}
-                    <div class="alert alert-light border">
-                        Aún no hay opiniones. ¡Sé el primero en decir qué te parece!
+                    <div class="text-center py-5 bg-white shadow-sm border" style="border-radius: 20px; opacity: 0.8;">
+                        <p class="text-muted mb-0">Aún no hay opiniones. ¡Sé el primero en decir qué te parece!</p>
                     </div>
                 {% endfor %}
 
-                {# Formulario para dejar opinión (Uso de Symfony Forms) #}
+                {# Formulario para dejar opinión #}
                 {% if app.user %}
-                    <div class="card mt-4 border-0 shadow-sm bg-white">
-                        <div class="card-body p-4">
-                            <h5 class="card-title fw-bold mb-3">Escribir una opinión</h5>
+                    <div class="card mt-5 border-0 shadow-sm" style="border-radius: 20px; background: rgba(255, 255, 255, 0.6);">
+                        <div class="card-body p-4 p-md-5">
+                            <h4 class="fw-bold text-dark mb-4">¿Lo has jugado? Danos tu opinión</h4>
                             {{ form_start(form) }}
-                            <div class="mb-3">
-                                {{ form_label(form.nota, 'Puntuación') }}
-                                {{ form_widget(form.nota) }}
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_label(form.nota, 'Tu puntuación', {'label_attr': {'class': 'fw-bold mb-2 text-dark'}}) }}
+                                    {{ form_widget(form.nota, {'attr': {'class': 'form-select border-0 shadow-sm', 'style': 'border-radius: 10px;'}}) }}
+                                </div>
+                                <div class="col-12 mb-4">
+                                    {{ form_label(form.comentario, 'Tu comentario', {'label_attr': {'class': 'fw-bold mb-2 text-dark'}}) }}
+                                    {{ form_widget(form.comentario, {'attr': {'class': 'form-control border-0 shadow-sm', 'rows': 4, 'placeholder': 'Escribe aquí tu reseña...', 'style': 'border-radius: 15px;'}}) }}
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                {{ form_label(form.comentario, 'Tu comentario') }}
-                                {{ form_widget(form.comentario) }}
-                            </div>
-                            <button type="submit" class="btn btn-primary px-4">Publicar Opinión</button>
+                            <button type="submit" class="btn text-white fw-bold px-5 py-3 shadow-sm" style="background: var(--primary-gradient); border: none; border-radius: 12px;">
+                                Publicar Opinión
+                            </button>
                             {{ form_end(form) }}
                         </div>
                     </div>
                 {% else %}
-                    <div class="alert alert-secondary mt-4">
-                        Para dejar una opinión, por favor <a href="{{ path('app_login') }}">inicia sesión</a>.
+                    <div class="alert alert-white text-center mt-5 py-4 shadow-sm border" style="border-radius: 15px; background: white;">
+                        Para dejar una opinión, por favor <a href="{{ path('app_login') }}" class="fw-bold text-primary">inicia sesión</a>.
                     </div>
                 {% endif %}
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body text-center">
-                    <a href="{{ path('videojuego_index') }}" class="btn btn-secondary w-100 mb-2">Volver al catálogo</a>
-                    {% if app.user %}
-                        <a href="{{ path('videojuego_edit', {'id': videojuego.id}) }}" class="btn btn-warning w-100">Editar Información</a>
-                    {% endif %}
-                </div>
             </div>
         </div>
     </div>
